@@ -1,0 +1,62 @@
+{{ $post := .post }}
+{{ $cat := "" }}
+{{ with $post.Params.categories }}{{ $cat = index . 0 | lower }}{{ end }}
+
+{{/* --- Thumb defaults from category --- */}}
+{{ $thumbClass := "thumb-go" }}
+{{ $thumbLabel := "Go" }}
+{{ if in $cat "robotics" }}
+  {{ $thumbClass = "thumb-ros" }}{{ $thumbLabel = "ROS2" }}
+{{ else if in $cat "embedded" }}
+  {{ $thumbClass = "thumb-embed" }}{{ $thumbLabel = "ESP32" }}
+{{ else if or (in $cat "cloud") (in $cat "iot") }}
+  {{ $thumbClass = "thumb-iot" }}{{ $thumbLabel = "IoT" }}
+{{ else if or (in $cat "ai") (in $cat "ml") }}
+  {{ $thumbClass = "thumb-ml" }}{{ $thumbLabel = "ML" }}
+{{ end }}
+
+{{/* --- Override label from front matter --- */}}
+{{ with $post.Params.thumb_label }}{{ $thumbLabel = . }}{{ end }}
+
+{{/* --- Image: page bundle resource OR params.thumbnail path --- */}}
+{{ $thumbImg := "" }}
+{{ with $post.Params.thumbnail }}
+  {{ $thumbImg = . }}
+{{ else }}
+  {{ with $post.Resources.GetMatch "thumbnail.*" }}
+    {{ $thumbImg = .RelPermalink }}
+  {{ end }}
+{{ end }}
+
+{{ $contentType := "" }}
+{{ with $post.Params.content_types }}{{ $contentType = index . 0 | lower }}{{ end }}
+
+<a href="{{ $post.RelPermalink }}" class="card" data-category="{{ $cat }}" data-content-type="{{ $contentType }}">
+  <div class="card-thumb {{ if not $thumbImg }}{{ $thumbClass }}{{ end }}"{{ if $thumbImg }} style="background-image:url('{{ $thumbImg }}');background-size:cover;background-position:center;"{{ end }}>
+    {{ if not $thumbImg }}<span class="card-thumb-label">{{ $thumbLabel }}</span>{{ end }}
+  </div>
+  <div class="card-body">
+    <div class="card-tags">
+      {{ with $post.Params.tags }}{{ range first 3 . }}<span class="card-tag">#{{ . }}</span>{{ end }}{{ end }}
+    </div>
+    <div class="card-title">{{ $post.Title }}</div>
+    <div class="card-excerpt">{{ $post.Summary }}</div>
+    <div class="card-footer">
+      {{ $names := slice ($post.Site.Params.author | default "Ali Ilham") }}
+      {{ if $post.Params.authors }}{{ $names = $post.Params.authors }}
+      {{ else if $post.Params.author }}{{ $names = slice $post.Params.author }}{{ end }}
+      <div class="card-author">
+        <div class="avatar-stack">
+          {{ range $names }}
+          {{ $parts := split . " " }}
+          {{ $initials := "" }}
+          {{ range first 2 $parts }}{{ $initials = printf "%s%s" $initials (substr . 0 1) }}{{ end }}
+          <div class="avatar" title="{{ . }}">{{ $initials | upper }}</div>
+          {{ end }}
+        </div>
+        <span>{{ delimit $names ", " }}</span>
+      </div>
+      <span class="card-date">{{ $post.Date.Format "Jan 2, 2006" }}</span>
+    </div>
+  </div>
+</a>

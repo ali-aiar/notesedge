@@ -1,0 +1,107 @@
+{{ define "main" }}
+
+{{ $names := slice (.Site.Params.author | default "Ali Ilham") }}
+{{ if .Params.authors }}{{ $names = .Params.authors }}
+{{ else if .Params.author }}{{ $names = slice .Params.author }}{{ end }}
+
+{{ $thumbImg := "" }}
+{{ with .Params.thumbnail }}
+  {{ $thumbImg = . }}
+{{ else }}
+  {{ with .Resources.GetMatch "thumbnail.*" }}
+    {{ $thumbImg = .RelPermalink }}
+  {{ end }}
+{{ end }}
+
+<div class="post-page">
+
+  <!-- HEADER AREA -->
+  <div class="post-header-area">
+    <a href="javascript:history.back()" class="post-back">← back to posts</a>
+    <div class="post-tags">
+      {{ range .Params.tags }}<span class="post-tag">#{{ . }}</span>{{ end }}
+    </div>
+    <h1 class="post-title">{{ .Title }}</h1>
+    <div class="post-meta">
+      <span>{{ delimit $names " &amp; " }}</span>
+      <span class="post-meta-dot"></span>
+      <span>{{ .Date.Format "January 2, 2006" }}</span>
+      <span class="post-meta-dot"></span>
+      <span>{{ math.Round (div (countwords .Content) 100.0) }} min read</span>
+    </div>
+  </div>
+
+  <!-- THUMBNAIL -->
+  {{ with $thumbImg }}
+  <div class="post-thumbnail">
+    <img src="{{ . }}" alt="{{ $.Title }}">
+  </div>
+  {{ end }}
+
+  <!-- BODY -->
+  <div class="post-body">
+    {{ .Content }}
+  </div>
+
+  <!-- POST NAV -->
+  {{ if or .PrevInSection .NextInSection }}
+  <nav class="post-nav">
+    <div class="post-nav-item post-nav-prev">
+      {{ with .NextInSection }}
+      <span class="post-nav-label">← previous</span>
+      <a href="{{ .RelPermalink }}" class="post-nav-title">{{ .Title }}</a>
+      {{ end }}
+    </div>
+    <div class="post-nav-item post-nav-next">
+      {{ with .PrevInSection }}
+      <span class="post-nav-label">next →</span>
+      <a href="{{ .RelPermalink }}" class="post-nav-title">{{ .Title }}</a>
+      {{ end }}
+    </div>
+  </nav>
+  {{ end }}
+
+</div>
+
+<script>
+(function () {
+  /* Enhance every <pre> inside .post-body with code-block wrapper */
+  document.querySelectorAll('.post-body pre').forEach(pre => {
+    const code = pre.querySelector('code');
+    const lang = (code && code.className.match(/language-(\w+)/))
+      ? code.className.match(/language-(\w+)/)[1].toUpperCase()
+      : (pre.dataset.lang || 'CODE');
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'code-block';
+
+    const header = document.createElement('div');
+    header.className = 'code-block-header';
+    header.innerHTML =
+      '<div class="code-block-left">' +
+        '<div class="code-dots"><span class="cd-r"></span><span class="cd-y"></span><span class="cd-g"></span></div>' +
+        '<span class="code-lang">' + lang + '</span>' +
+      '</div>' +
+      '<button class="code-copy">copy</button>';
+
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(header);
+    wrapper.appendChild(pre);
+
+    header.querySelector('.code-copy').addEventListener('click', function () {
+      const text = pre.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        this.textContent = 'copied!';
+        this.style.color = '#2dd4bf';
+        this.style.borderColor = '#134e4a';
+        setTimeout(() => {
+          this.textContent = 'copy';
+          this.style.color = '';
+          this.style.borderColor = '';
+        }, 2000);
+      });
+    });
+  });
+})();
+</script>
+{{ end }}

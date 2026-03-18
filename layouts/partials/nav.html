@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <a href="{{ .Site.BaseURL }}" class="nav-brand">
+    {{ with .Site.Params.logo }}<img src="{{ . }}" alt="{{ $.Site.Title }} logo" class="brand-icon">{{ end }}
+    <span>{{ .Site.Title }}</span>
+  </a>
+  <div class="nav-links">
+    {{ range .Site.Menus.main }}
+    {{ $active := or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}
+    {{ if and (not $active) (eq .URL "/") }}
+      {{ $active = $.IsHome }}
+    {{ else if and (not $active) (ne .URL "/") }}
+      {{ $active = strings.HasPrefix $.RelPermalink .URL }}
+    {{ end }}
+    <a href="{{ .URL }}"{{ if $active }} class="active"{{ end }}>{{ .Name }}</a>
+    {{ end }}
+  </div>
+  <div class="nav-search">
+    <input type="search" placeholder="⌕ Search...">
+  </div>
+</nav>

@@ -1,0 +1,57 @@
+baseURL = "https://example.com"
+title   = "yoursite.dev"
+languageCode = "en-us"
+theme   = "notesedge"
+paginate = 10
+
+[taxonomies]
+  tag          = "tags"
+  category     = "categories"
+  content_type = "content_types"
+
+[params]
+  author      = "Your Name"
+  tagline     = "I build things and write about <strong>how they work.</strong>"
+  description = "Backend systems, distributed architecture, and the occasional deep-dive into robotics, embedded systems & industrial IoT."
+  role        = "Engineer @ Company"
+  location    = "City, Country"
+  education   = "University, Degree"
+
+  hero_status = "Open to opportunities"
+  hero_prompt = "yoursite.dev // home"
+
+  favicon  = "/favicon.svg"
+  logo     = "/logo-brand.png"
+
+  github   = "https://github.com/yourusername"
+  linkedin = "https://linkedin.com/in/yourusername"
+  email    = "you@example.com"
+
+  stack = ["Go", "Python", "Docker", "PostgreSQL", "MQTT", "Terraform"]
+
+  code_filename = "profile.go"
+  code_name     = "Your Name"
+  code_role     = "Software Engineer"
+  code_focus    = ["Backend", "IoT", "Distributed Systems"]
+  code_writing  = true
+
+[markup.highlight]
+  style     = "github-dark"
+  noClasses = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[menu]
+  [[menu.main]]
+    name   = "Home"
+    url    = "/"
+    weight = 1
+  [[menu.main]]
+    name   = "Notes"
+    url    = "/notes/"
+    weight = 2
+  [[menu.main]]
+    name   = "About"
+    url    = "/about/"
+    weight = 3

@@ -1,0 +1,12 @@
+name = "notesedge"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+description = "A dark GitHub-style Hugo theme for technical writers and engineers."
+homepage = "https://aliilham.dev"
+tags = ["dark", "monospace", "blog", "technical", "minimal"]
+features = ["blog", "syntax highlighting", "responsive"]
+min_version = "0.110.0"
+
+[author]
+  name = "Ali Ilham"
+  homepage = "https://aliilham.dev"

@@ -1,0 +1,14 @@
+{{ define "main" }}
+{{ $posts := .RegularPages.ByDate.Reverse }}
+<div class="list-wrapper">
+  <div class="list-header">
+    <h1 class="list-title">{{ .Title }}</h1>
+    <p class="list-subtitle">{{ len $posts }} posts</p>
+  </div>
+  <div class="card-grid">
+    {{ range $posts }}
+    {{ partial "card.html" (dict "post" .) }}
+    {{ end }}
+  </div>
+</div>
+{{ end }}

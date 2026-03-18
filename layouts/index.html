@@ -1,0 +1,157 @@
+{{ define "main" }}
+{{ partial "hero.html" . }}
+{{ $posts := (.Site.GetPage "section" "posts").RegularPages }}
+<div class="main-wrapper">
+  <div class="main-grid">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar-left">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Browse Categories</div>
+        <div class="tags-cloud-wrapper"><ul class="category-list">
+          {{ $catColors := dict "robotics" "#2dd4bf" "embedded" "#f97316" "go/backend" "#00ACD7" "ai/ml" "#7c3aed" "cloud/iot" "#FF9900" "devops" "#326CE5" }}
+          {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+          {{ $color := index $catColors ($name | lower) | default "#8b949e" }}
+          <li class="cat-item">
+            <span class="cat-dot" style="background:{{ $color }}"></span>
+            <a href="{{ "/categories/" | relURL }}{{ $name | urlize }}/">{{ $name | title }}</a>
+            <span class="cat-count">{{ len $taxonomy }}</span>
+          </li>
+          {{ end }}
+        </ul></div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Recent Posts</div>
+        <div class="tags-cloud-wrapper"><ul class="recent-list">
+          {{ range first 3 $posts }}
+          {{ $cat := "" }}{{ with .Params.categories }}{{ $cat = index . 0 }}{{ end }}
+          {{ $catColors := dict "Robotics" "#2dd4bf" "Embedded" "#f97316" "Go/Backend" "#00ACD7" "AI/ML" "#7c3aed" "Cloud/IoT" "#FF9900" }}
+          {{ $iconBg  := index $catColors $cat | default "#21262d" }}
+          {{ $iconFg  := "#8b949e" }}
+          {{ if eq $cat "Robotics" }}{{ $iconFg = "#2dd4bf" }}{{ else if eq $cat "Embedded" }}{{ $iconFg = "#f97316" }}{{ else if eq $cat "Go/Backend" }}{{ $iconFg = "#00ACD7" }}{{ else if eq $cat "AI/ML" }}{{ $iconFg = "#a78bfa" }}{{ else if eq $cat "Cloud/IoT" }}{{ $iconFg = "#FF9900" }}{{ end }}
+          {{ $abbr := $cat | truncate 3 "..." | upper }}
+          <li class="recent-item">
+            <a href="{{ .RelPermalink }}" class="recent-link">
+              <span class="r-icon" style="background:{{ $iconBg }}1a;color:{{ $iconFg }};border:1px solid {{ $iconBg }}44">{{ $abbr | strings.TrimRight "." }}</span>
+              <span class="r-text">{{ .Title }}</span>
+            </a>
+          </li>
+          {{ end }}
+        </ul></div>
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content-area">
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All</button>
+        {{ range $name, $pages := .Site.Taxonomies.content_types }}
+        <button class="filter-tab" data-filter="{{ $name | lower }}">{{ $name | title }}</button>
+        {{ end }}
+      </div>
+      <div class="carousel-wrapper">
+        <div class="card-grid" id="card-grid">
+          {{ range $posts }}
+          {{ partial "card.html" (dict "post" .) }}
+          {{ end }}
+        </div>
+        <div class="carousel-nav" id="carousel-nav">
+          <div class="carousel-arrows">
+            <button class="carousel-btn" id="carousel-prev" aria-label="Previous">&#8592;</button>
+            <button class="carousel-btn" id="carousel-next" aria-label="Next">&#8594;</button>
+          </div>
+          <span class="carousel-count" id="carousel-count"></span>
+        </div>
+      </div>
+    </main>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar-right">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Tags</div>
+        <div class="tags-cloud-wrapper"><div class="tags-cloud">
+          {{ $tagColors := slice "tag-teal" "tag-blue" "tag-purple" "tag-amber" "tag-gray" "tag-green" }}
+          {{ range $name, $pages := .Site.Taxonomies.tags }}
+          {{ $count := len $pages }}
+          {{ $size := "tag-sm" }}
+          {{ if ge $count 3 }}{{ $size = "tag-lg" }}{{ else if ge $count 2 }}{{ $size = "tag-md" }}{{ end }}
+          {{ $colorIdx := mod (len $name) 6 }}
+          <a href="{{ "/tags/" | relURL }}{{ $name | urlize }}/" class="tag-pill {{ $size }} {{ index $tagColors $colorIdx }}">#{{ $name }}</a>
+          {{ end }}
+        </div></div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Search</div>
+        <input type="search" class="search-box" placeholder="Search posts...">
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Current Stack</div>
+        <div class="tags-cloud-wrapper"><div class="stack-pills">
+          {{ range $i, $s := .Site.Params.stack }}
+          <span class="stack-pill sp-gray">{{ $s }}</span>
+          {{ end }}
+        </div></div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  const PAGE_SIZE = 4;
+  const tabs      = document.querySelectorAll('.filter-tab');
+  const allCards  = Array.from(document.querySelectorAll('#card-grid .card'));
+  const prevBtn   = document.getElementById('carousel-prev');
+  const nextBtn   = document.getElementById('carousel-next');
+  const countEl   = document.getElementById('carousel-count');
+  const navEl     = document.getElementById('carousel-nav');
+
+  let visible = allCards.slice();
+  let page    = 0;
+
+  function totalPages() {
+    return Math.ceil(visible.length / PAGE_SIZE);
+  }
+
+  function goTo(p) {
+    page = Math.max(0, Math.min(p, totalPages() - 1));
+
+    allCards.forEach(c => { c.style.display = 'none'; });
+
+    const start = page * PAGE_SIZE;
+    const end   = Math.min(start + PAGE_SIZE, visible.length);
+    visible.slice(start, end).forEach(c => { c.style.display = ''; });
+
+    prevBtn.disabled = page === 0;
+    nextBtn.disabled = page >= totalPages() - 1;
+    prevBtn.classList.toggle('active', page > 0);
+    nextBtn.classList.toggle('active', page < totalPages() - 1);
+
+    countEl.textContent = 'Showing ' + end + ' of ' + visible.length + ' posts';
+    navEl.style.display = 'flex';
+  }
+
+  function applyFilter(filter) {
+    page = 0;
+    visible = filter === 'all'
+      ? allCards
+      : allCards.filter(c => (c.dataset.contentType || '').toLowerCase() === filter);
+    goTo(0);
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      applyFilter(tab.dataset.filter || 'all');
+    });
+  });
+
+  prevBtn.addEventListener('click', () => goTo(page - 1));
+  nextBtn.addEventListener('click', () => goTo(page + 1));
+
+  applyFilter('all');
+})();
+</script>
+{{ end }}

@@ -1,0 +1,46 @@
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span>{{ .Site.Params.hero_status | default "Available" }} &middot; {{ .Site.Params.role | default "Software Engineer" }}</span>
+      </div>
+      <div class="hero-prompt"><span class="hero-prompt-tilde">~</span> {{ .Site.Params.hero_prompt | default .Site.Title }}</div>
+      <h1 class="hero-tagline">{{ .Site.Params.tagline | safeHTML }}</h1>
+      <p class="hero-bio">{{ .Site.Params.description | safeHTML }}</p>
+      <div class="hero-meta">
+        {{ with .Site.Params.education }}<div class="hero-meta-item"><span class="hero-meta-dot"></span>{{ . }}</div>{{ end }}
+        {{ with .Site.Params.location }}<div class="hero-meta-item"><span class="hero-meta-dot"></span>{{ . }}</div>{{ end }}
+      </div>
+      {{ with .Site.Params.stack }}
+      <div class="hero-badges">
+        {{ range $i, $s := . }}
+        <span class="hero-badge{{ if lt $i 4 }} hl{{ end }}">{{ $s }}</span>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+    <div class="hero-right">
+      <div class="hero-code">
+        <div class="code-header">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          <span style="margin-left:0.5rem;color:var(--text-dim)">{{ .Site.Params.code_filename | default "profile.go" }}</span>
+        </div>
+        <pre><code><span class="cm">// {{ .Site.Params.code_filename | default "profile.go" }}</span>
+
+<span class="kw">type</span> <span class="typ">Engineer</span> <span class="kw">struct</span> {
+  Name   <span class="str">"{{ .Site.Params.code_name | default .Site.Params.author }}"</span>
+  Role   <span class="str">"{{ .Site.Params.code_role | default .Site.Params.role }}"</span>
+  Focus  <span class="typ">[]string</span>{
+    {{- range .Site.Params.code_focus }}
+    <span class="str">"{{ . }}"</span>,
+    {{- end }}
+  }
+  Writing <span class="fn">{{ .Site.Params.code_writing | default true }}</span>
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
