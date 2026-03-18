@@ -1,6 +1,6 @@
 <footer class="footer">
   <div class="footer-left">
-    <span>&copy; 2026 NotesEdge &middot; Built with <a href="https://gohugo.io" style="color: var(--accent)">Hugo</a> &amp; <a href="https://github.com/aliilham/notesedge" style="color: var(--accent)">NotesEdge</a></span>
+    <span>&copy; {{ now.Year }} NotesEdge &middot; Built with <a href="https://gohugo.io" style="color: var(--accent)">Hugo</a> &amp; <a href="https://github.com/aliilham/notesedge" style="color: var(--accent)">NotesEdge</a></span>
   </div>
   <div class="footer-social">
     {{ with .Site.Params.github }}<a href="{{ . }}" target="_blank" rel="noopener">GitHub</a>{{ end }}
