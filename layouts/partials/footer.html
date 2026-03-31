@@ -1,6 +1,6 @@
 <footer class="footer">
   <div class="footer-left">
-    <span>&copy; {{ now.Year }} {{ .Site.Title }} &middot; {{ T "built_with" | default "Built with" }} <a href="https://gohugo.io" style="color: var(--accent)">Hugo</a>{{ if ne (.Site.Params.show_theme_credit | default true) false }} &amp; <a href="{{ .Site.Params.theme_repo | default "https://github.com/ali-aiar/notesedge" }}" style="color: var(--accent)">NotesEdge</a>{{ end }}</span>
+    <span>&copy; {{ now.Year }} {{ .Site.Params.author | default .Site.Title }} &middot; {{ T "built_with" | default "Built with" }} <a href="https://gohugo.io" style="color: var(--accent)">Hugo</a>{{ if ne (.Site.Params.show_theme_credit | default true) false }} &amp; <a href="{{ .Site.Params.theme_repo | default "https://github.com/ali-aiar/notesedge" }}" style="color: var(--accent)">NotesEdge</a>{{ end }}</span>
   </div>
   <div class="footer-social">
     {{ with .Site.Params.github }}<a href="{{ . }}" target="_blank" rel="noopener">GitHub</a>{{ end }}
