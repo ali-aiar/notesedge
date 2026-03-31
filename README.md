@@ -9,11 +9,7 @@ A dark, GitHub-inspired Hugo theme for technical writers and engineers. Built wi
 
 ## Preview
 
-![Main screen](images/main-screen.png)
-
-![Posts](images/posts.png)
-
-![Content type filtering](images/content-type.png)
+![Main screen](images/screenshot.png)
 
 ---
 
@@ -28,7 +24,12 @@ A dark, GitHub-inspired Hugo theme for technical writers and engineers. Built wi
 - **Multiple taxonomies** — `tags`, `categories`, `content_types`
 - **Responsive** — Mobile-first, adapts at 900px and 600px breakpoints
 - **No framework dependencies** — Vanilla CSS with custom properties, vanilla JS
-- **Hero section** — Decorative Go code block, bio, stack pills, and tagline
+- **Configurable hero** — Toggle and parameterize the hero section
+- **Google Fonts toggle** — Disable web fonts for privacy or performance
+- **i18n ready** — All UI strings translatable via `i18n/` files
+- **SEO optimized** — Open Graph, Twitter Cards, canonical URLs
+- **Extensibility hooks** — Override `head.html` and `comments.html` partials
+- **Configurable category colors** — Map categories to custom colors via config
 
 ---
 
@@ -88,37 +89,52 @@ paginate = 10
   content_type = "content_types"
 
 [params]
-  author      = "Your Name"
-  tagline     = "I build things and write about <strong>how they work.</strong>"
-  description = "Short bio shown in the hero section."
-  role        = "Your Role @ Company"
-  location    = "City, Country"
-  education   = "University, Degree"
+  show_hero     = true      # Toggle hero section on homepage (default: true)
+  google_fonts  = true      # Load JetBrains Mono from Google Fonts (default: true)
+  author        = "Your Name"
+  tagline       = "I build things and write about <strong>how they work.</strong>"
+  description   = "Short bio shown in the hero section."
+  role          = "Your Role @ Company"
+  location      = "City, Country"
+  education     = "University, Degree"
 
-  # Hero status badge
-  hero_status = "Open to grad studies"
+  hero_status   = "Open to opportunities"
+  hero_prompt   = "yoursite.dev // home"
 
-  # Terminal prompt label in hero
-  hero_prompt = "yoursite.dev // home"
+  favicon       = "/favicon.svg"
+  logo          = "/logo-brand.png"
 
-  # Branding (files placed in your site's static/ folder)
-  favicon  = "/favicon.svg"   # supports .svg, .png, .ico
-  logo     = "/logo-brand.png"
+  github        = "https://github.com/yourusername"
+  linkedin      = "https://linkedin.com/in/yourusername"
+  email         = "you@example.com"
+  theme_repo    = "https://github.com/ali-aiar/notesedge"
 
-  # Social links
-  github   = "https://github.com/yourusername"
-  linkedin = "https://linkedin.com/in/yourusername"
-  email    = "you@example.com"
-
-  # Stack pills shown in hero and right sidebar
   stack = ["Go", "Python", "Docker", "PostgreSQL"]
 
-  # Hero decorative code block
   code_filename = "profile.go"
   code_name     = "Your Name"
   code_role     = "Your Role"
   code_focus    = ["Topic1", "Topic2", "Topic3"]
   code_writing  = true
+
+  # Optional: Open Graph fallback image
+  # og_image    = "/images/og-default.png"
+
+  [params.category_colors]
+    robotics     = "#2dd4bf"
+    embedded     = "#f97316"
+    "go/backend" = "#00ACD7"
+    "ai/ml"      = "#7c3aed"
+    "cloud/iot"  = "#FF9900"
+    devops       = "#326CE5"
+
+  [params.category_thumb_classes]
+    robotics     = "thumb-ros"
+    embedded     = "thumb-embed"
+    "go/backend" = "thumb-go"
+    "ai/ml"      = "thumb-ml"
+    "cloud/iot"  = "thumb-iot"
+    devops       = "thumb-devops"
 
 [markup.highlight]
   style     = "github-dark"
@@ -126,11 +142,7 @@ paginate = 10
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
-```
 
-### Navigation menu
-
-```toml
 [menu]
   [[menu.main]]
     name = "Home"
@@ -148,51 +160,127 @@ paginate = 10
 
 ---
 
-## Content
+## Hero Section
 
-### Post front matter
+The hero section on the homepage is highly customizable. Toggle it with `params.show_hero` (default: `true`).
 
-```yaml
----
-title: "Your Post Title"
-date: 2024-01-15
-categories: ["Robotics"]
-tags: ["ROS2", "C++"]
-content_types: ["Tutorial"]
-authors: ["Your Name"]
-summary: "Short excerpt shown in cards and search results."
+### Hero Parameters
 
-# Optional thumbnail
-thumbnail: "/images/post-thumb.jpg"
-thumb_label: "ROS2"   # Label shown on card thumbnail (defaults to category)
----
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `show_hero` | Show/hide the entire hero section | `true` |
+| `author` | Display name in hero bio | — |
+| `tagline` | HTML-enabled tagline below name | — |
+| `description` | Short bio paragraph | — |
+| `role` | Role shown in status badge | i18n `hero_role_default` |
+| `location` | City/country in bio | — |
+| `education` | University/degree in bio | — |
+| `hero_status` | Status badge text | i18n `hero_status_default` |
+| `hero_prompt` | Terminal prompt text | Site title |
+| `code_filename` | Filename shown in code block | `"profile.go"` |
+| `code_name` | Name field in code block | — |
+| `code_role` | Role field in code block | — |
+| `code_focus` | Array of focus areas in code block | `[]` |
+| `code_writing` | Boolean shown in code block | — |
+| `stack` | Array of technology names for pills | `[]` |
+| `github` | GitHub profile URL | — |
+| `linkedin` | LinkedIn profile URL | — |
+| `email` | Contact email | — |
+
+### Category Colors
+
+Map each category to a custom accent color and optional thumbnail CSS class. Colors appear as left-border accents on post cards and category badges.
+
+```toml
+[params.category_colors]
+  robotics     = "#2dd4bf"
+  embedded     = "#f97316"
+  "go/backend" = "#00ACD7"
+
+[params.category_thumb_classes]
+  robotics     = "thumb-ros"
+  embedded     = "thumb-embed"
+  "go/backend" = "thumb-go"
 ```
 
-### Category thumbnail colors
+Keys must match your category names (lowercase). Categories without a mapping fall back to the default teal accent.
 
-The card thumbnail gradient is derived from the post's first category:
-
-| Category keyword | Color |
-|---|---|
-| IoT, Cloud | Dark teal |
-| Robotics, ROS | Dark blue |
-| AI, ML | Purple |
-| Embedded, MCU | Amber |
-| Go, Backend | Cyan |
-| DevOps | GitHub blue |
-
-Posts with a `thumbnail` image override the gradient entirely.
-
-### About page
-
-Create `content/about.md` with `layout: about` to use the dedicated about template:
-
-```yaml
 ---
-title: "About"
-layout: "about"
+
+## Google Fonts
+
+The theme uses **JetBrains Mono** for its monospace aesthetic. By default, it loads this from Google Fonts. If you prefer to use system fonts or host them yourself, set `params.google_fonts = false`.
+
 ---
-```
+
+## i18n / Translations
+
+All UI strings are translatable. The theme ships with English defaults in `i18n/en.toml`.
+
+| Key | Default | Used in |
+|-----|---------|---------|
+| `hero_status_default` | "Available" | Hero status badge |
+| `hero_role_default` | "Software Engineer" | Hero status badge |
+| `nav_search_placeholder` | "⌕ Search..." | Navigation bar |
+| `search_placeholder` | "Search posts, tags, topics..." | Search overlay |
+| `search_empty_state` | "Start typing to search..." | Search overlay |
+| `search_loading` | "Loading index..." | Search overlay |
+| `search_no_results_prefix` | "No results for" | Search overlay |
+| `search_load_error` | "Could not load search index." | Search overlay |
+| `search_results_summary` | "Showing %END% of %TOTAL% posts" | Search overlay |
+| `back_to_posts` | "← back to posts" | Single post page |
+| `min_read` | "min read" | Single post page |
+| `previous_post` | "← previous" | Post navigation |
+| `next_post` | "next →" | Post navigation |
+| `browse_categories` | "Browse Categories" | Left sidebar |
+| `recent_posts` | "Recent Posts" | Left sidebar |
+| `filter_all` | "All" | Content type filter |
+| `tags_title` | "Tags" | Right sidebar |
+| `search_title` | "Search" | Right sidebar |
+| `search_sidebar_placeholder` | "Search posts..." | Right sidebar |
+| `current_stack` | "Current Stack" | Right sidebar |
+| `post_count_suffix` | "posts" | List pages |
+| `built_with` | "Built with" | Footer |
+| `page_not_found` | "Page Not Found" | 404 page |
+| `page_not_found_message` | "The page you're looking for doesn't exist or has been moved." | 404 page |
+| `back_to_home` | "← Back to Home" | 404 page |
+| `copy` | "copy" | Code block button |
+| `copied` | "copied!" | Code block button |
+
+### Adding a New Locale
+
+1. Copy `i18n/en.toml` to `i18n/{lang}.toml` (e.g., `i18n/fr.toml`)
+2. Translate each `other = "..."` value
+3. Set `languageCode` in your site config to match (e.g., `languageCode = "fr"`)
+
+Hugo automatically picks the correct file based on your site's language code.
+
+---
+
+## SEO Meta Tags
+
+The theme automatically generates optimized meta tags for search engines and social sharing:
+- Canonical URLs
+- Open Graph tags (`og:title`, `og:description`, `og:image`, etc.)
+- Article-specific tags for posts (published time, author, tags)
+- Twitter Card support (`summary_large_image`)
+- RSS autodiscovery
+
+Front matter fields used for SEO:
+- `summary` → Description
+- `thumbnail` → Social sharing image
+- `authors` → Article author
+- `tags` → Article tags
+
+Use `params.og_image` in your config as a site-wide fallback image.
+
+---
+
+## Extensibility Hooks
+
+You can customize the theme without modifying its core files using these partial hooks:
+1. `layouts/partials/head.html` — Injected into the `<head>` section. Use this for custom meta tags, analytics (e.g., Plausible, Umami), or additional CSS.
+2. `layouts/partials/comments.html` — Injected after post content on single pages. Empty by default. Use this to integrate comment systems like Giscus or Disqus.
 
 ---
 
@@ -216,21 +304,34 @@ Search weights:
 ## Layout Structure
 
 ```
+archetypes/
+└── default.md             # Post archetype
+assets/
+├── css/
+│   └── main.css           # Theme stylesheet
+└── js/
+    ├── carousel.js        # Post carousel logic
+    ├── code-block.js      # Code copy button
+    └── search.js          # Fuse.js search overlay
+i18n/
+└── en.toml                # English UI strings
 layouts/
 ├── 404.html
-├── index.html            # Homepage with hero + post carousel
-├── index.json            # Search index template
+├── index.html             # Homepage with hero + post carousel
+├── index.json             # Search index template
 ├── _default/
-│   ├── baseof.html       # Base HTML wrapper
+│   ├── baseof.html        # Base HTML wrapper
 │   ├── single.html       # Individual post page
-│   └── list.html         # Category / tag list pages
+│   └── list.html          # Category / tag list pages
 ├── page/
-│   └── about.html        # About page
+│   └── about.html         # About page
 └── partials/
-    ├── nav.html
-    ├── hero.html
     ├── card.html
+    ├── comments.html       # Comment system hook (empty by default)
     ├── footer.html
+    ├── head.html           # SEO meta tags + extensibility hook
+    ├── hero.html
+    ├── nav.html
     └── search.html
 ```
 

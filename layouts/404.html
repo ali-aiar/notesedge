@@ -1,55 +1,8 @@
 {{ define "main" }}
 <div class="not-found-wrapper">
   <div class="not-found-code">404</div>
-  <h1 class="not-found-title">Page Not Found</h1>
-  <p class="not-found-msg">The page you're looking for doesn't exist or has been moved.</p>
-  <a href="{{ .Site.BaseURL }}" class="not-found-btn">← Back to Home</a>
+  <h1 class="not-found-title">{{ T "page_not_found" | default "Page Not Found" }}</h1>
+  <p class="not-found-msg">{{ T "page_not_found_message" | default "The page you're looking for doesn't exist or has been moved." }}</p>
+  <a href="{{ .Site.BaseURL }}" class="not-found-btn">{{ T "back_to_home" | default "← Back to Home" }}</a>
 </div>
-
-<style>
-.not-found-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-  text-align: center;
-  padding: 2rem;
-}
-.not-found-code {
-  font-size: 7rem;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--accent);
-  opacity: 0.15;
-  letter-spacing: -4px;
-  font-family: 'JetBrains Mono', monospace;
-}
-.not-found-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0.5rem 0;
-}
-.not-found-msg {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  margin-bottom: 2rem;
-}
-.not-found-btn {
-  display: inline-block;
-  padding: 0.5rem 1.25rem;
-  background: var(--accent-bg);
-  color: var(--accent);
-  border: 1px solid var(--accent-border);
-  border-radius: 6px;
-  font-size: 0.85rem;
-  text-decoration: none;
-  transition: background 0.15s;
-}
-.not-found-btn:hover {
-  background: var(--accent);
-  color: var(--bg-base);
-}
-</style>
 {{ end }}

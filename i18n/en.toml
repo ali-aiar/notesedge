@@ -1,0 +1,80 @@
+[hero_status_default]
+other = "Available"
+
+[hero_role_default]
+other = "Software Engineer"
+
+[nav_search_placeholder]
+other = "⌕ Search..."
+
+[search_placeholder]
+other = "Search posts, tags, topics..."
+
+[search_empty_state]
+other = "Start typing to search..."
+
+[search_loading]
+other = "Loading index..."
+
+[search_no_results_prefix]
+other = "No results for"
+
+[search_load_error]
+other = "Could not load search index."
+
+[search_results_summary]
+other = "Showing %END% of %TOTAL% posts"
+
+[back_to_posts]
+other = "← back to posts"
+
+[min_read]
+other = "min read"
+
+[previous_post]
+other = "← previous"
+
+[next_post]
+other = "next →"
+
+[browse_categories]
+other = "Browse Categories"
+
+[recent_posts]
+other = "Recent Posts"
+
+[filter_all]
+other = "All"
+
+[tags_title]
+other = "Tags"
+
+[search_title]
+other = "Search"
+
+[search_sidebar_placeholder]
+other = "Search posts..."
+
+[current_stack]
+other = "Current Stack"
+
+[post_count_suffix]
+other = "posts"
+
+[built_with]
+other = "Built with"
+
+[page_not_found]
+other = "Page Not Found"
+
+[page_not_found_message]
+other = "The page you're looking for doesn't exist or has been moved."
+
+[back_to_home]
+other = "← Back to Home"
+
+[copy]
+other = "copy"
+
+[copied]
+other = "copied!"

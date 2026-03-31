@@ -3,16 +3,17 @@
 {{ with $post.Params.categories }}{{ $cat = index . 0 | lower }}{{ end }}
 
 {{/* --- Thumb defaults from category --- */}}
-{{ $thumbClass := "thumb-go" }}
+{{ $thumbClassMap := $post.Site.Params.category_thumb_classes | default dict }}
+{{ $thumbClass := index $thumbClassMap $cat | default "thumb-go" }}
 {{ $thumbLabel := "Go" }}
-{{ if in $cat "robotics" }}
-  {{ $thumbClass = "thumb-ros" }}{{ $thumbLabel = "ROS2" }}
-{{ else if in $cat "embedded" }}
-  {{ $thumbClass = "thumb-embed" }}{{ $thumbLabel = "ESP32" }}
-{{ else if or (in $cat "cloud") (in $cat "iot") }}
-  {{ $thumbClass = "thumb-iot" }}{{ $thumbLabel = "IoT" }}
-{{ else if or (in $cat "ai") (in $cat "ml") }}
-  {{ $thumbClass = "thumb-ml" }}{{ $thumbLabel = "ML" }}
+{{ if eq $thumbClass "thumb-ros" }}
+  {{ $thumbLabel = "ROS2" }}
+{{ else if eq $thumbClass "thumb-embed" }}
+  {{ $thumbLabel = "ESP32" }}
+{{ else if eq $thumbClass "thumb-iot" }}
+  {{ $thumbLabel = "IoT" }}
+{{ else if eq $thumbClass "thumb-ml" }}
+  {{ $thumbLabel = "ML" }}
 {{ end }}
 
 {{/* --- Override label from front matter --- */}}
@@ -42,7 +43,7 @@
     <div class="card-title">{{ $post.Title }}</div>
     <div class="card-excerpt">{{ $post.Summary }}</div>
     <div class="card-footer">
-      {{ $names := slice ($post.Site.Params.author | default "Ali Ilham") }}
+      {{ $names := slice ($post.Site.Params.author | default "Author") }}
       {{ if $post.Params.authors }}{{ $names = $post.Params.authors }}
       {{ else if $post.Params.author }}{{ $names = slice $post.Params.author }}{{ end }}
       <div class="card-author">

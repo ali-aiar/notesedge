@@ -3,7 +3,7 @@
 <div class="list-wrapper">
   <div class="list-header">
     <h1 class="list-title">{{ .Title }}</h1>
-    <p class="list-subtitle">{{ len $posts }} posts</p>
+    <p class="list-subtitle">{{ len $posts }} {{ T "post_count_suffix" | default "posts" }}</p>
   </div>
   <div class="card-grid">
     {{ range $posts }}

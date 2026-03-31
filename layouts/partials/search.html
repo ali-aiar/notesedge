@@ -6,14 +6,14 @@
         type="search"
         class="search-modal-input"
         id="search-modal-input"
-        placeholder="Search posts, tags, topics..."
+        placeholder="{{ T "search_placeholder" | default "Search posts, tags, topics..." }}"
         autocomplete="off"
         spellcheck="false"
       >
       <kbd class="search-esc" id="search-close">esc</kbd>
     </div>
     <div class="search-results" id="search-results">
-      <div class="search-empty" id="search-empty">Start typing to search...</div>
+      <div class="search-empty" id="search-empty">{{ T "search_empty_state" | default "Start typing to search..." }}</div>
     </div>
   </div>
 </div>
