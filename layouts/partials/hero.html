@@ -15,7 +15,7 @@
       {{ with .Site.Params.stack }}
       <div class="hero-badges">
         {{ range $i, $s := . }}
-        <span class="hero-badge{{ if lt $i 4 }} hl{{ end }}">{{ $s }}</span>
+        <span class="hero-badge">{{ $s }}</span>
         {{ end }}
       </div>
       {{ end }}
@@ -31,14 +31,14 @@
         <pre><code><span class="cm">// {{ .Site.Params.code_filename | default "profile.go" }}</span>
 
 <span class="kw">type</span> <span class="typ">Engineer</span> <span class="kw">struct</span> {
-  Name   <span class="str">"{{ .Site.Params.code_name | default .Site.Params.author }}"</span>
-  Role   <span class="str">"{{ .Site.Params.code_role | default .Site.Params.role }}"</span>
-  Focus  <span class="typ">[]string</span>{
+  {{ T "hero_code_name" | default "Name" }}   <span class="str">"{{ .Site.Params.code_name | default .Site.Params.author }}"</span>
+  {{ T "hero_code_role" | default "Role" }}   <span class="str">"{{ .Site.Params.code_role | default .Site.Params.role }}"</span>
+  {{ T "hero_code_focus" | default "Focus" }}  <span class="typ">[]string</span>{
     {{- range .Site.Params.code_focus }}
     <span class="str">"{{ . }}"</span>,
     {{- end }}
   }
-  Writing <span class="fn">{{ .Site.Params.code_writing | default true }}</span>
+  {{ T "hero_code_writing" | default "Writing" }} <span class="fn">{{ .Site.Params.code_writing | default true }}</span>
 }</code></pre>
       </div>
     </div>

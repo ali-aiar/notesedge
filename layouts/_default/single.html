@@ -13,6 +13,73 @@
   {{ end }}
 {{ end }}
 
+{{ $prevPage := false }}
+{{ $nextPage := false }}
+{{ $sectionPages := sort .CurrentSection.RegularPages "Date" "asc" }}
+
+{{ $seriesNameScratch := newScratch }}
+{{ $seriesNameScratch.Set "names" (slice) }}
+{{ $seriesScratch := newScratch }}
+{{ $seriesPageScratch := newScratch }}
+{{ range $sectionPages }}
+  {{ $page := . }}
+  {{ with $page.Params.series }}
+    {{ $seriesName := . }}
+    {{ if not ($seriesNameScratch.Get $seriesName) }}
+      {{ $seriesNameScratch.Set $seriesName true }}
+      {{ $seriesNameScratch.Add "names" (slice $seriesName) }}
+    {{ end }}
+    {{ if not ($seriesScratch.Get $seriesName) }}
+      {{ $seriesScratch.Set $seriesName (slice) }}
+    {{ end }}
+    {{ $seriesScratch.Add $seriesName (slice $page) }}
+  {{ end }}
+{{ end }}
+
+{{ range ($seriesNameScratch.Get "names" | default (slice)) }}
+  {{ $seriesName := . }}
+  {{ $seriesPageScratch.Set $seriesName (sort ($seriesScratch.Get $seriesName | default (slice)) "Params.series_order" "asc") }}
+{{ end }}
+
+{{ $orderedScratch := newScratch }}
+{{ $orderedScratch.Set "pages" (slice) }}
+{{ $emittedSeriesScratch := newScratch }}
+
+{{ range $sectionPages }}
+  {{ $page := . }}
+  {{ with $page.Params.series }}
+    {{ $seriesName := . }}
+    {{ if not ($emittedSeriesScratch.Get $seriesName) }}
+      {{ $emittedSeriesScratch.Set $seriesName true }}
+      {{ $orderedScratch.Add "pages" ($seriesPageScratch.Get $seriesName | default (slice)) }}
+    {{ end }}
+  {{ else }}
+    {{ $orderedScratch.Add "pages" (slice $page) }}
+  {{ end }}
+{{ end }}
+
+{{ $orderedPages := $orderedScratch.Get "pages" | default (slice) }}
+
+{{ $currentIndexScratch := newScratch }}
+{{ $currentIndexScratch.Set "value" -1 }}
+{{ range $i, $page := $orderedPages }}
+  {{ if eq $page.RelPermalink $.RelPermalink }}
+    {{ $currentIndexScratch.Set "value" $i }}
+  {{ end }}
+{{ end }}
+{{ $currentIndex := $currentIndexScratch.Get "value" }}
+
+{{ if ge $currentIndex 0 }}
+  {{ if gt $currentIndex 0 }}
+    {{ $prevPage = index $orderedPages (sub $currentIndex 1) }}
+  {{ end }}
+
+  {{ $nextIndex := add $currentIndex 1 }}
+  {{ if lt $nextIndex (len $orderedPages) }}
+    {{ $nextPage = index $orderedPages $nextIndex }}
+  {{ end }}
+{{ end }}
+
 <div class="post-page" data-copy="{{ T "copy" | default "copy" }}" data-copied="{{ T "copied" | default "copied!" }}">
 
   <!-- HEADER AREA -->
@@ -46,17 +113,17 @@
   {{ partial "comments.html" . }}
 
   <!-- POST NAV -->
-  {{ if or .PrevInSection .NextInSection }}
+  {{ if or $prevPage $nextPage }}
   <nav class="post-nav">
     <div class="post-nav-item post-nav-prev">
-      {{ with .NextInSection }}
-      <span class="post-nav-label">{{ T "previous_post" | default "← previous" }}</span>
+      {{ with $prevPage }}
+      <span class="post-nav-label">{{ if and $.Params.series .Params.series (eq .Params.series $.Params.series) }}{{ T "previous_in_series" | default "← previous in series" }}{{ else }}{{ T "previous_post" | default "← previous" }}{{ end }}</span>
       <a href="{{ .RelPermalink }}" class="post-nav-title">{{ .Title }}</a>
       {{ end }}
     </div>
     <div class="post-nav-item post-nav-next">
-      {{ with .PrevInSection }}
-      <span class="post-nav-label">{{ T "next_post" | default "next →" }}</span>
+      {{ with $nextPage }}
+      <span class="post-nav-label">{{ if and $.Params.series .Params.series (eq .Params.series $.Params.series) }}{{ T "next_in_series" | default "next in series →" }}{{ else }}{{ T "next_post" | default "next →" }}{{ end }}</span>
       <a href="{{ .RelPermalink }}" class="post-nav-title">{{ .Title }}</a>
       {{ end }}
     </div>

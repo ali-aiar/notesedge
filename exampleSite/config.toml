@@ -29,6 +29,7 @@ paginate = 10
   linkedin = "https://linkedin.com/in/yourusername"
   email    = "you@example.com"
   theme_repo = "https://github.com/ali-aiar/notesedge"
+  show_theme_credit = true
 
   stack = ["Go", "Python", "Docker", "PostgreSQL", "MQTT", "Terraform"]
 

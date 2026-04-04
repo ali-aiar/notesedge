@@ -1,6 +1,7 @@
 ---
 title: "About"
 layout: "about"
+type: "page"
 ---
 
 Hi, I'm a software engineer who writes about backend systems, embedded development, and the tools that connect them. This site is built with [NotesEdge](https://github.com/ali-aiar/notesedge), a dark Hugo theme designed for technical writers.

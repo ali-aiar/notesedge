@@ -2,7 +2,7 @@
 {{ if ne .Site.Params.show_hero false }}
 {{ partial "hero.html" . }}
 {{ end }}
-{{ $posts := (.Site.GetPage "section" "posts").RegularPages }}
+{{ $posts := (.Site.GetPage "section" "posts").RegularPages.ByDate.Reverse }}
 <div class="main-wrapper">
   <div class="main-grid">
 
@@ -59,8 +59,8 @@
         </div>
         <div class="carousel-nav" id="carousel-nav">
           <div class="carousel-arrows">
-            <button class="carousel-btn" id="carousel-prev" aria-label="Previous">&#8592;</button>
-            <button class="carousel-btn" id="carousel-next" aria-label="Next">&#8594;</button>
+            <button class="carousel-btn" id="carousel-prev" aria-label="{{ T "carousel_prev" | default "Previous" }}">&#8592;</button>
+            <button class="carousel-btn" id="carousel-next" aria-label="{{ T "carousel_next" | default "Next" }}">&#8594;</button>
           </div>
           <span class="carousel-count" id="carousel-count"></span>
         </div>

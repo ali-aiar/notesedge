@@ -20,6 +20,7 @@ A dark, GitHub-inspired Hugo theme for technical writers and engineers. Built wi
 - **Client-side search** — Fuse.js fuzzy search with `Cmd/Ctrl + K` shortcut
 - **Content filtering** — Filter posts by `content_types` taxonomy
 - **Post carousel** — 4-post paginated view with previous/next navigation
+- **Optional post series** — Add ordered multi-part series with dedicated previous/next-in-series navigation
 - **Code highlighting** — Hugo's `github-dark` syntax theme with copy buttons
 - **Multiple taxonomies** — `tags`, `categories`, `content_types`
 - **Responsive** — Mobile-first, adapts at 900px and 600px breakpoints
@@ -108,6 +109,7 @@ paginate = 10
   linkedin      = "https://linkedin.com/in/yourusername"
   email         = "you@example.com"
   theme_repo    = "https://github.com/ali-aiar/notesedge"
+  show_theme_credit = true  # Show the theme credit link in the footer (default: true)
 
   stack = ["Go", "Python", "Docker", "PostgreSQL"]
 
@@ -158,6 +160,24 @@ paginate = 10
     weight = 3
 ```
 
+### Post Front Matter
+
+In addition to the standard fields, posts can optionally join an ordered series:
+
+```toml
+title = "Building a Go API — Part 1"
+date = 2025-04-01
+categories = ["Go/Backend"]
+tags = ["Go", "API", "Series"]
+content_types = ["Tutorial"]
+authors = ["Your Name"]
+series = "Building a Go API"
+series_order = 1
+summary = "Start a four-part API series with project layout and bootstrapping."
+```
+
+When `series` and `series_order` are present, the single-post page prefers navigation within that ordered series. Posts without these fields keep the default section-based previous/next behavior.
+
 ---
 
 ## Hero Section
@@ -186,6 +206,8 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 | `github` | GitHub profile URL | — |
 | `linkedin` | LinkedIn profile URL | — |
 | `email` | Contact email | — |
+| `theme_repo` | Footer link target for the theme credit | Default NotesEdge repo |
+| `show_theme_credit` | Show/hide the site-title-based footer credit link | `true` |
 
 ### Category Colors
 
@@ -232,6 +254,8 @@ All UI strings are translatable. The theme ships with English defaults in `i18n/
 | `min_read` | "min read" | Single post page |
 | `previous_post` | "← previous" | Post navigation |
 | `next_post` | "next →" | Post navigation |
+| `previous_in_series` | "← previous in series" | Series post navigation |
+| `next_in_series` | "next in series →" | Series post navigation |
 | `browse_categories` | "Browse Categories" | Left sidebar |
 | `recent_posts` | "Recent Posts" | Left sidebar |
 | `filter_all` | "All" | Content type filter |
@@ -246,6 +270,12 @@ All UI strings are translatable. The theme ships with English defaults in `i18n/
 | `back_to_home` | "← Back to Home" | 404 page |
 | `copy` | "copy" | Code block button |
 | `copied` | "copied!" | Code block button |
+| `carousel_prev` | "Previous" | Post carousel navigation |
+| `carousel_next` | "Next" | Post carousel navigation |
+| `hero_code_name` | "Name" | Hero section code block |
+| `hero_code_role` | "Role" | Hero section code block |
+| `hero_code_focus` | "Focus" | Hero section code block |
+| `hero_code_writing` | "Writing" | Hero section code block |
 
 ### Adding a New Locale
 
@@ -321,7 +351,7 @@ layouts/
 ├── index.json             # Search index template
 ├── _default/
 │   ├── baseof.html        # Base HTML wrapper
-│   ├── single.html       # Individual post page
+│   ├── single.html        # Individual post page + optional series navigation
 │   └── list.html          # Category / tag list pages
 ├── page/
 │   └── about.html         # About page
