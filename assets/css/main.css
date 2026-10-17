@@ -144,6 +144,56 @@ img {
   flex-shrink: 0;
 }
 
+.nav-menu-toggle {
+  display: none;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.nav-menu-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+.nav-menu-icon,
+.nav-menu-icon::before,
+.nav-menu-icon::after {
+  display: block;
+  width: 14px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.nav-menu-icon {
+  position: relative;
+}
+
+.nav-menu-icon::before,
+.nav-menu-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+
+.nav-menu-icon::before { top: -5px; }
+.nav-menu-icon::after  { top:  5px; }
+
+.navbar.menu-open .nav-menu-icon         { transform: rotate(45deg); }
+.navbar.menu-open .nav-menu-icon::before { transform: translateY(5px) rotate(0); opacity: 0; }
+.navbar.menu-open .nav-menu-icon::after  { transform: translateY(-5px) rotate(0); }
+
 .nav-search-trigger {
   display: none;
   flex-shrink: 0;
@@ -1433,8 +1483,26 @@ img {
     gap: 0.75rem;
   }
 
-  .nav-brand span:last-child {
+  .nav-menu-toggle {
+    display: flex;
+  }
+
+  .nav-brand {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .nav-brand .brand-icon {
     display: none;
+  }
+
+  .nav-brand span:last-child {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
   }
 
   .nav-search {
@@ -1446,13 +1514,29 @@ img {
   }
 
   .nav-links {
-    gap: 0;
-    overflow-x: auto;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0.25rem;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-dim);
+    padding: 0.5rem 1rem 0.75rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-links.open {
+    display: flex;
   }
 
   .nav-links a {
-    padding: 0.3rem 0.5rem;
-    font-size: 0.72rem;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.85rem;
+    width: 100%;
+    text-align: left;
+    border-radius: 6px;
   }
 
   .card-grid {

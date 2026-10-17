@@ -1,9 +1,12 @@
-<nav class="navbar">
+<nav class="navbar" id="navbar">
+  <button class="nav-menu-toggle" id="nav-menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+    <span class="nav-menu-icon" aria-hidden="true"></span>
+  </button>
   <a href="{{ .Site.BaseURL }}" class="nav-brand">
     {{ with .Site.Params.logo }}<img src="{{ . }}" alt="{{ $.Site.Title }} logo" class="brand-icon">{{ end }}
     <span>{{ .Site.Title }}</span>
   </a>
-  <div class="nav-links">
+  <div class="nav-links" id="nav-links">
     {{ range .Site.Menus.main }}
     {{ $active := or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}
     {{ if and (not $active) (eq .URL "/") }}

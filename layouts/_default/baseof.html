@@ -23,5 +23,7 @@
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
   {{ $searchJS := resources.Get "js/search.js" | minify }}
   <script src="{{ $searchJS.RelPermalink }}"></script>
+  {{ $navJS := resources.Get "js/nav.js" | minify }}
+  <script src="{{ $navJS.RelPermalink }}"></script>
 </body>
 </html>
