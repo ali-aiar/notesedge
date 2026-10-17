@@ -605,13 +605,7 @@ img {
   z-index: 1;
 }
 
-/* Thumbnail gradient variants */
-.thumb-iot    { background: linear-gradient(135deg, #0f766e, #042f2e); }
-.thumb-ros    { background: linear-gradient(135deg, #1d4ed8, #0a1128); }
-.thumb-ml     { background: linear-gradient(135deg, #7c3aed, #1a0a2e); }
-.thumb-embed  { background: linear-gradient(135deg, #b45309, #1c0f00); }
-.thumb-go     { background: linear-gradient(135deg, #00ACD7, #003B52); }
-.thumb-devops { background: linear-gradient(135deg, #2088FF, #0a1128); }
+/* Thumbnail gradient is applied inline from [params.category_thumb] in config */
 
 .card-body {
   padding: 0.9rem;

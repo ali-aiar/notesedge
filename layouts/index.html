@@ -11,9 +11,10 @@
       <div class="sidebar-section">
         <div class="sidebar-title">{{ T "categories_title" | default "Categories" }}</div>
         <div class="tags-cloud-wrapper"><ul class="category-list">
-          {{ $catColors := .Site.Params.category_colors | default dict }}
+          {{ $catMap := .Site.Params.categories | default dict }}
           {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
-          {{ $color := index $catColors ($name | lower) | default "#8b949e" }}
+          {{ $cfg := index $catMap ($name | lower) }}
+          {{ $color := "#8b949e" }}{{ with $cfg.color }}{{ $color = . }}{{ end }}
           <li class="cat-item">
             <span class="cat-dot" style="background:{{ $color }}"></span>
             <a href="{{ "/categories/" | relURL }}{{ $name | urlize }}/">{{ $name | title }}</a>

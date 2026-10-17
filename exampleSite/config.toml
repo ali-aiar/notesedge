@@ -37,21 +37,13 @@ paginate = 10
   code_focus    = ["Backend", "IoT", "Distributed Systems"]
   code_writing  = true
 
-  [params.category_colors]
-    robotics     = "#2dd4bf"
-    embedded     = "#f97316"
-    "go/backend" = "#00ACD7"
-    "ai/ml"      = "#7c3aed"
-    "cloud/iot"  = "#FF9900"
-    devops       = "#326CE5"
-
-  [params.category_thumb_classes]
-    robotics     = "thumb-ros"
-    embedded     = "thumb-embed"
-    "go/backend" = "thumb-go"
-    "ai/ml"      = "thumb-ml"
-    "cloud/iot"  = "thumb-iot"
-    devops       = "thumb-devops"
+  [params.categories]
+    robotics     = { color = "#2dd4bf", from = "#1d4ed8", to = "#0a1128", label = "ROS2"   }
+    embedded     = { color = "#f97316", from = "#b45309", to = "#1c0f00", label = "ESP32"  }
+    "go/backend" = { color = "#00ACD7", from = "#00ACD7", to = "#003B52", label = "Go"     }
+    "ai/ml"      = { color = "#7c3aed", from = "#7c3aed", to = "#1a0a2e", label = "ML"     }
+    "cloud/iot"  = { color = "#FF9900", from = "#0f766e", to = "#042f2e", label = "IoT"    }
+    devops       = { color = "#326CE5", from = "#2088FF", to = "#0a1128", label = "DevOps" }
 
 [markup.highlight]
   style     = "github-dark"

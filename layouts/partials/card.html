@@ -2,18 +2,16 @@
 {{ $cat := "" }}
 {{ with $post.Params.categories }}{{ $cat = index . 0 | lower }}{{ end }}
 
-{{/* --- Thumb defaults from category --- */}}
-{{ $thumbClassMap := $post.Site.Params.category_thumb_classes | default dict }}
-{{ $thumbClass := index $thumbClassMap $cat | default "thumb-go" }}
-{{ $thumbLabel := "Go" }}
-{{ if eq $thumbClass "thumb-ros" }}
-  {{ $thumbLabel = "ROS2" }}
-{{ else if eq $thumbClass "thumb-embed" }}
-  {{ $thumbLabel = "ESP32" }}
-{{ else if eq $thumbClass "thumb-iot" }}
-  {{ $thumbLabel = "IoT" }}
-{{ else if eq $thumbClass "thumb-ml" }}
-  {{ $thumbLabel = "ML" }}
+{{/* --- Thumb defaults from category config --- */}}
+{{ $catMap := $post.Site.Params.categories | default dict }}
+{{ $thumbCfg := index $catMap $cat }}
+{{ $thumbFrom := "var(--bg-elevated)" }}
+{{ $thumbTo   := "var(--bg-base)" }}
+{{ $thumbLabel := "" }}
+{{ with $thumbCfg }}
+  {{ with .from  }}{{ $thumbFrom = . }}{{ end }}
+  {{ with .to    }}{{ $thumbTo   = . }}{{ end }}
+  {{ with .label }}{{ $thumbLabel = . }}{{ end }}
 {{ end }}
 
 {{/* --- Override label from front matter --- */}}
@@ -33,8 +31,8 @@
 {{ with $post.Params.content_types }}{{ $contentType = index . 0 | lower }}{{ end }}
 
 <a href="{{ $post.RelPermalink }}" class="card" data-category="{{ $cat }}" data-content-type="{{ $contentType }}">
-  <div class="card-thumb {{ if not $thumbImg }}{{ $thumbClass }}{{ end }}"{{ if $thumbImg }} style="background-image:url('{{ $thumbImg }}');background-size:cover;background-position:center;"{{ end }}>
-    {{ if not $thumbImg }}<span class="card-thumb-label">{{ $thumbLabel }}</span>{{ end }}
+  <div class="card-thumb"{{ if not $thumbImg }} style="background:linear-gradient(135deg, {{ $thumbFrom }}, {{ $thumbTo }});"{{ else }} style="background-image:url('{{ $thumbImg }}');background-size:cover;background-position:center;"{{ end }}>
+    {{ if and (not $thumbImg) $thumbLabel }}<span class="card-thumb-label">{{ $thumbLabel }}</span>{{ end }}
   </div>
   <div class="card-body">
     <div class="card-tags">
