@@ -1504,6 +1504,24 @@ img {
     padding: 0.75rem;
   }
 
+  .sidebar-section {
+    flex: 1 1 140px;
+    min-width: 0;
+    padding: 0.75rem;
+  }
+
+  .sidebar-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .category-list {
+    max-height: 100px;
+  }
+
+  .tags-cloud {
+    max-height: 100px;
+  }
+
   .filter-tabs {
     overflow-x: auto;
     width: 100%;
