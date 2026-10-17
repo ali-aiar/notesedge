@@ -111,12 +111,10 @@ paginate = 10
   theme_repo    = "https://github.com/ali-aiar/notesedge"
   show_theme_credit = true  # Show the theme credit link in the footer (default: true)
 
-  # Hero code block: data-driven, not hard-coded to a language
+  # Hero code block: data-driven, swap languages via `language` preset
   [params.hero_code]
-    filename      = "profile.go"
-    type_keyword  = "type"        # optional: override for other languages
-    type_name     = "Engineer"    # optional: name shown after type_keyword
-    block_keyword = "struct"      # optional: set to "" for class-style
+    language  = "go"             # go | rust | cpp | c | javascript | js | typescript | ts | python
+    type_name = "Engineer"       # only required field beyond language + fields
 
     [[params.hero_code.fields]]
     label = "Name"
@@ -129,7 +127,7 @@ paginate = 10
     [[params.hero_code.fields]]
     label = "Focus"
     value = ["Backend", "IoT", "Distributed Systems"]
-    kind  = "array"               # renders as []string{ "a", "b" }
+    kind  = "array"               # renders as the language's array type
 
     [[params.hero_code.fields]]
     label = "Writing"
@@ -215,29 +213,36 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 
 ### Hero Code
 
-The hero code block is **data-driven**, not hard-coded to a specific language. Define a list of fields with optional `kind` (`string` default, `array`, `bool`); the template renders each one generically. The wrapping declaration is overridable so the same block can target Go, Python-class style, etc.
+The hero code block is **language-flexible** and **data-driven**. Pick a `language` preset to get sensible defaults for the keyword, block style, array type, and filename — then just list your fields. You can still override any preset value explicitly.
+
+Supported `language` presets (defined in `data/hero_code_languages.toml`):
+
+| `language`   | opener keyword | block keyword | array type       | default filename  |
+|---|---|---|---|---|
+| `go`         | `type`         | `struct`      | `[]string`       | `profile.go`      |
+| `rust`       | _(none)_       | `struct`      | `Vec<&str>`      | `profile.rs`      |
+| `cpp`        | _(none)_       | `struct`      | `vector<string>` | `profile.cpp`     |
+| `c`          | `typedef`      | _(none)_      | `char*[]`        | `profile.h`       |
+| `javascript` / `js` | `class`  | _(none)_      | `Array`          | `profile.js`      |
+| `typescript` / `ts` | `interface` | _(none)_    | `Array`          | `profile.ts`      |
+| `python`     | `class`        | _(none)_      | `list`           | `profile.py`      |
 
 ```toml
 [params.hero_code]
-  filename      = "profile.go"
-  type_keyword  = "type"        # e.g. "class" for class-based languages
-  type_name     = "Engineer"
-  block_keyword = "struct"      # set to "" if your language has no equivalent
+  language  = "rust"
+  type_name = "Engineer"
 
   [[params.hero_code.fields]]
   label = "Name"
-  value = "Your Name"           # default kind: string
+  value = "Your Name"
 
   [[params.hero_code.fields]]
   label = "Focus"
   value = ["Backend", "IoT"]
   kind  = "array"
-
-  [[params.hero_code.fields]]
-  label = "Writing"
-  value = true
-  kind  = "bool"
 ```
+
+To add a new language, append an entry to `data/hero_code_languages.toml` — no template edit needed. To override a single preset value on a site, set the corresponding field explicitly in `[params.hero_code]` (`filename`, `type_keyword`, `block_keyword`).
 
 ### Category Settings
 
@@ -366,6 +371,8 @@ i18n/
 └── en.toml                # English UI strings
 static/
 └── favicon.svg            # Default theme favicon (`</>` glyph)
+data/
+└── hero_code_languages.toml  # Language presets for the hero code block
 layouts/
 ├── 404.html
 ├── index.html             # Homepage with hero + post carousel

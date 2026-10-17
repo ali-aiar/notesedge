@@ -1,0 +1,59 @@
+# Hero code block language presets
+# Each key is a language identifier. Values are the syntax bits that vary
+# between languages: the keyword that opens the type declaration, the
+# block keyword (or "" for none), the array type shown for `kind = "array"`,
+# and the default filename when none is specified.
+
+[go]
+type_keyword  = "type"
+block_keyword = "struct"
+array_type    = "[]string"
+filename      = "profile.go"
+
+[rust]
+type_keyword  = ""
+block_keyword = "struct"
+array_type    = "Vec<&str>"
+filename      = "profile.rs"
+
+[cpp]
+type_keyword  = ""
+block_keyword = "struct"
+array_type    = "vector<string>"
+filename      = "profile.cpp"
+
+[c]
+type_keyword  = "typedef"
+block_keyword = ""
+array_type    = "char*[]"
+filename      = "profile.h"
+
+[javascript]
+type_keyword  = "class"
+block_keyword = ""
+array_type    = "Array"
+filename      = "profile.js"
+
+[js]
+type_keyword  = "class"
+block_keyword = ""
+array_type    = "Array"
+filename      = "profile.js"
+
+[typescript]
+type_keyword  = "interface"
+block_keyword = ""
+array_type    = "Array"
+filename      = "profile.ts"
+
+[ts]
+type_keyword  = "interface"
+block_keyword = ""
+array_type    = "Array"
+filename      = "profile.ts"
+
+[python]
+type_keyword  = "class"
+block_keyword = ""
+array_type    = "list"
+filename      = "profile.py"

@@ -14,24 +14,28 @@
     </div>
     <div class="hero-right">
       <div class="hero-code">
+        {{ $hc := .Site.Params.hero_code | default dict }}
+        {{ $preset := index .Site.Data.hero_code_languages ($hc.language | default "go") }}
+        {{ $preset = $preset | default dict }}
+        {{ $filename := $hc.filename      | default $preset.filename      | default "profile.go" }}
+        {{ $tkw      := $hc.type_keyword  | default $preset.type_keyword  | default "type" }}
+        {{ $tnm      := $hc.type_name     | default "Engineer" }}
+        {{ $bkw      := $hc.block_keyword | default $preset.block_keyword | default "struct" }}
+        {{ $arr      := $preset.array_type | default "[]string" }}
+        {{ $fields   := $hc.fields         | default (slice) }}
         <div class="code-header">
           <span class="dot dot-red"></span>
           <span class="dot dot-yellow"></span>
           <span class="dot dot-green"></span>
-          <span style="margin-left:0.5rem;color:var(--text-dim)">{{ .Site.Params.hero_code.filename | default "profile.go" }}</span>
+          <span style="margin-left:0.5rem;color:var(--text-dim)">{{ $filename }}</span>
         </div>
-        {{ $hc := .Site.Params.hero_code | default dict }}
-        {{ $fields := $hc.fields | default (slice) }}
-        {{ $tkw := $hc.type_keyword  | default "type" }}
-        {{ $tnm := $hc.type_name     | default "Engineer" }}
-        {{ $bkw := $hc.block_keyword | default "struct" }}
-        <pre><code><span class="cm">// {{ $hc.filename | default "profile.go" }}</span>
+        <pre><code><span class="cm">// {{ $filename }}</span>
 
 <span class="kw">{{ $tkw }}</span> <span class="typ">{{ $tnm }}</span> <span class="kw">{{ $bkw }}</span> {
 {{- range $fields }}
   {{- $kind := .kind | default "string" }}
   {{- if eq $kind "array" }}
-  {{ .label }}<span class="typ">[]string</span>{
+  {{ .label }}<span class="typ">{{ $arr }}</span>{
     {{- range .value }}
     <span class="str">"{{ . }}"</span>,
     {{- end }}
