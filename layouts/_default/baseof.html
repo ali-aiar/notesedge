@@ -13,7 +13,7 @@
   {{ end }}
   {{ $css := resources.Get "css/main.css" | minify }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
-  {{ with .Site.Params.favicon }}<link rel="icon" href="{{ . }}">{{ end }}
+  <link rel="icon" href="{{ .Site.Params.favicon | default "/favicon.svg" }}">
 </head>
 <body data-search-empty="{{ T "search_empty_state" | default "Start typing to search..." }}" data-search-loading="{{ T "search_loading" | default "Loading index..." }}" data-search-no-results="{{ T "search_no_results_prefix" | default "No results for" }}" data-search-error="{{ T "search_load_error" | default "Could not load search index." }}" data-results-summary="{{ T "search_results_summary" | default "Showing %END% of %TOTAL% posts" }}">
   {{ partial "nav.html" . }}
