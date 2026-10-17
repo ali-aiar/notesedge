@@ -115,8 +115,8 @@ paginate = 10
 
   # Hero code block: paste code inline (code) or point at a file (code_file)
   [params.hero_code]
-    language  = "cpp"              # go | rust | cpp | c | javascript | typescript | python
-    code_file = "data/profile.code" # path relative to the Hugo project root
+    language  = "cpp"                # go | rust | cpp | c | javascript | typescript | python
+    code_file = "static/profile.code" # path relative to the Hugo project root
 
   # Optional: Open Graph fallback image
   # og_image    = "/images/og-default.png"
@@ -228,10 +228,10 @@ struct Engineer {
 ```toml
 [params.hero_code]
   language  = "cpp"
-  code_file = "data/profile.code"   # path relative to the Hugo project root
+  code_file = "static/profile.code"   # path relative to the Hugo project root
 ```
 
-`data/profile.code`:
+`static/profile.code`:
 
 ```cpp
 #include <string>
@@ -248,6 +248,8 @@ struct Engineer {
     bool writing = true;
 };
 ```
+
+**Where to put the file:** any non-special Hugo directory works — `static/`, `assets/`, the project root, a custom folder. **Do not put it in `data/`** — Hugo's data auto-loader only understands `.json`/`.yaml`/`.toml`/`.csv` and will refuse any other extension.
 
 **Resolution order:** `code_file` → `code` → placeholder comment. So you can switch between modes without deleting the other.
 
