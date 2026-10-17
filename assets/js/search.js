@@ -26,6 +26,11 @@
     });
   });
 
+  const navTrigger = document.getElementById('nav-search-trigger');
+  if (navTrigger) {
+    navTrigger.addEventListener('click', openOverlay);
+  }
+
   function openOverlay() {
     overlay.removeAttribute('aria-hidden');
     overlay.classList.add('open');

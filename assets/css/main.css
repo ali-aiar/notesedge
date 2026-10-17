@@ -144,6 +144,28 @@ img {
   flex-shrink: 0;
 }
 
+.nav-search-trigger {
+  display: none;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.nav-search-trigger:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
 .nav-search input {
   background: var(--bg-elevated);
   border: 1px solid var(--border-dim);
@@ -1453,6 +1475,10 @@ img {
     display: none;
   }
 
+  .nav-search-trigger {
+    display: flex;
+  }
+
   .nav-links {
     gap: 0;
     overflow-x: auto;
@@ -1465,6 +1491,10 @@ img {
 
   .card-grid {
     grid-template-columns: 1fr;
+  }
+
+  .search-overlay {
+    padding: 6vh 0.75rem 0.75rem;
   }
 
   .hero {
