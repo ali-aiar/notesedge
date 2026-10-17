@@ -12,6 +12,7 @@ paginate = 10
 [params]
   show_hero     = true
   google_fonts  = true
+  carousel_page_size = 4
   author        = "Your Name"
   tagline     = "I build things and write about <strong>how they work.</strong>"
   description = "Backend systems, distributed architecture, and the occasional deep-dive into robotics, embedded systems & industrial IoT."
@@ -61,6 +62,11 @@ paginate = 10
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
+
+
+[permalinks]
+  [permalinks.term]
+    content_types = "/:slug/"
 
 [menu]
   [[menu.main]]

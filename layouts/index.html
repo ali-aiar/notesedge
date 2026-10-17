@@ -23,23 +23,17 @@
         </ul></div>
       </div>
       <div class="sidebar-section">
-        <div class="sidebar-title">{{ T "recent_posts" | default "Recent Posts" }}</div>
-        <div class="tags-cloud-wrapper"><ul class="recent-list">
-          {{ $catColors := .Site.Params.category_colors | default dict }}
-          {{ range first 3 $posts }}
-          {{ $cat := "" }}{{ with .Params.categories }}{{ $cat = index . 0 }}{{ end }}
-          {{ $color := index $catColors ($cat | lower) | default "#8b949e" }}
-          {{ $iconBg  := $color }}
-          {{ $iconFg  := $color }}
-          {{ $abbr := $cat | truncate 3 "..." | upper }}
-          <li class="recent-item">
-            <a href="{{ .RelPermalink }}" class="recent-link">
-              <span class="r-icon" style="background:{{ $iconBg }}1a;color:{{ $iconFg }};border:1px solid {{ $iconBg }}44">{{ $abbr | strings.TrimRight "." }}</span>
-              <span class="r-text">{{ .Title }}</span>
-            </a>
-          </li>
+        <div class="sidebar-title">{{ T "tags_title" | default "Tags" }}</div>
+        <div class="tags-cloud-wrapper"><div class="tags-cloud">
+          {{ $tagColors := slice "tag-teal" "tag-blue" "tag-purple" "tag-amber" "tag-gray" "tag-green" }}
+          {{ range $name, $pages := .Site.Taxonomies.tags }}
+          {{ $count := len $pages }}
+          {{ $size := "tag-sm" }}
+          {{ if ge $count 3 }}{{ $size = "tag-lg" }}{{ else if ge $count 2 }}{{ $size = "tag-md" }}{{ end }}
+          {{ $colorIdx := mod (len $name) 6 }}
+          <a href="{{ "/tags/" | relURL }}{{ $name | urlize }}/" class="tag-pill {{ $size }} {{ index $tagColors $colorIdx }}">#{{ $name }}</a>
           {{ end }}
-        </ul></div>
+        </div></div>
       </div>
     </aside>
 
@@ -57,7 +51,7 @@
           {{ partial "card.html" (dict "post" .) }}
           {{ end }}
         </div>
-        <div class="carousel-nav" id="carousel-nav">
+        <div class="carousel-nav" id="carousel-nav" data-page-size="{{ .Site.Params.carousel_page_size | default 4 }}">
           <div class="carousel-arrows">
             <button class="carousel-btn" id="carousel-prev" aria-label="{{ T "carousel_prev" | default "Previous" }}">&#8592;</button>
             <button class="carousel-btn" id="carousel-next" aria-label="{{ T "carousel_next" | default "Next" }}">&#8594;</button>
@@ -66,35 +60,6 @@
         </div>
       </div>
     </main>
-
-    <!-- RIGHT SIDEBAR -->
-    <aside class="sidebar-right">
-      <div class="sidebar-section">
-        <div class="sidebar-title">{{ T "tags_title" | default "Tags" }}</div>
-        <div class="tags-cloud-wrapper"><div class="tags-cloud">
-          {{ $tagColors := slice "tag-teal" "tag-blue" "tag-purple" "tag-amber" "tag-gray" "tag-green" }}
-          {{ range $name, $pages := .Site.Taxonomies.tags }}
-          {{ $count := len $pages }}
-          {{ $size := "tag-sm" }}
-          {{ if ge $count 3 }}{{ $size = "tag-lg" }}{{ else if ge $count 2 }}{{ $size = "tag-md" }}{{ end }}
-          {{ $colorIdx := mod (len $name) 6 }}
-          <a href="{{ "/tags/" | relURL }}{{ $name | urlize }}/" class="tag-pill {{ $size }} {{ index $tagColors $colorIdx }}">#{{ $name }}</a>
-          {{ end }}
-        </div></div>
-      </div>
-      <div class="sidebar-section">
-        <div class="sidebar-title">{{ T "search_title" | default "Search" }}</div>
-        <input type="search" class="search-box" placeholder="{{ T "search_sidebar_placeholder" | default "Search posts..." }}">
-      </div>
-      <div class="sidebar-section">
-        <div class="sidebar-title">{{ T "current_stack" | default "Current Stack" }}</div>
-        <div class="tags-cloud-wrapper"><div class="stack-pills">
-          {{ range $i, $s := .Site.Params.stack }}
-          <span class="stack-pill sp-gray">{{ $s }}</span>
-          {{ end }}
-        </div></div>
-      </div>
-    </aside>
 
   </div>
 </div>

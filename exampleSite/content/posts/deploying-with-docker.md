@@ -1,6 +1,6 @@
 ---
 title: "Deploying Services with Docker"
-date: 2024-09-10
+date: 2025-04-17
 categories: ["DevOps"]
 tags: ["Docker", "CI/CD"]
 content_types: ["Note"]

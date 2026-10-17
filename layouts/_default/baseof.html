@@ -9,7 +9,7 @@
   {{ if ne .Site.Params.google_fonts false }}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,wght@1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
   {{ end }}
   {{ $css := resources.Get "css/main.css" | minify }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">

@@ -1,11 +1,11 @@
 (function () {
-  const PAGE_SIZE = 4;
   const tabs = document.querySelectorAll('.filter-tab');
   const allCards = Array.from(document.querySelectorAll('#card-grid .card'));
   const prevBtn = document.getElementById('carousel-prev');
   const nextBtn = document.getElementById('carousel-next');
   const countEl = document.getElementById('carousel-count');
   const navEl = document.getElementById('carousel-nav');
+  const PAGE_SIZE = Math.max(1, parseInt(navEl.dataset.pageSize, 10) || 4);
 
   if (!tabs.length || !allCards.length || !prevBtn || !nextBtn || !countEl || !navEl) {
     return;
