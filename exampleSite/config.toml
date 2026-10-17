@@ -32,22 +32,8 @@ paginate = 10
   show_theme_credit = true
 
   [params.hero_code]
-    language = "cpp"        # go, rust, cpp, c, javascript, typescript, python
-    code     = '''
-#include <string>
-#include <vector>
-
-struct Engineer {
-    std::string name = "Your Name";
-    std::string role = "Controls & Embedded Engineer";
-    std::vector<std::string> focus = {
-        "Controls",
-        "Robotics",
-        "Embedded Systems",
-    };
-    bool writing = true;
-};
-'''
+    language  = "cpp"               # go, rust, cpp, c, javascript, typescript, python
+    code_file = "data/profile.code" # path is relative to the Hugo project root
 
   [params.categories]
     robotics     = { color = "#2dd4bf", from = "#1d4ed8", to = "#0a1128", label = "ROS2"   }

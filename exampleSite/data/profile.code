@@ -1,0 +1,13 @@
+#include <string>
+#include <vector>
+
+struct Engineer {
+    std::string name = "Your Name";
+    std::string role = "Controls & Embedded Engineer";
+    std::vector<std::string> focus = {
+        "Controls",
+        "Robotics",
+        "Embedded Systems",
+    };
+    bool writing = true;
+};

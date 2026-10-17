@@ -24,11 +24,22 @@
           <span class="dot dot-green"></span>
           <span style="margin-left:0.5rem;color:var(--text-dim)">{{ $filename }}</span>
         </div>
-        {{- with $hc.code -}}
+        {{- $source := "" -}}
+        {{- with $hc.code_file -}}
+          {{- $file := readFile . -}}
+          {{- with $file -}}
+            {{- $source = . -}}
+          {{- end -}}
+        {{- else -}}
+          {{- with $hc.code -}}
+            {{- $source = . -}}
+          {{- end -}}
+        {{- end -}}
+        {{- with $source -}}
         <pre><code>{{ highlight . $lang "" }}</code></pre>
         {{- else -}}
         <pre><code>// {{ $filename }}
-// Add `code = '''...'''` to [params.hero_code] in your config to fill this block.</code></pre>
+// Add `code = '''...'''` or `code_file = "path"` to [params.hero_code] in your config to fill this block.</code></pre>
         {{- end -}}
       </div>
     </div>

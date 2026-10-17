@@ -201,7 +201,7 @@ img {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 380px;
+  grid-template-columns: 1fr 480px;
   gap: 2rem;
   align-items: center;
 }
@@ -356,7 +356,7 @@ img {
   line-height: 1.45;
   color: var(--text-muted);
   width: 100%;
-  max-width: 380px;
+  max-width: 420px;
   overflow: hidden;
 }
 
@@ -383,8 +383,9 @@ img {
 
 .hero-code pre {
   margin: 0;
-  white-space: pre;
-  overflow: hidden;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow: visible;
 }
 
 /* ─── MAIN GRID ──────────────────────────────────────────── */

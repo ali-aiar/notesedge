@@ -26,7 +26,7 @@ A dark, GitHub-inspired Hugo theme for technical writers and engineers. Built wi
 - **Responsive** — Mobile-first, adapts at 900px and 600px breakpoints
 - **No framework dependencies** — Vanilla CSS with custom properties, vanilla JS
 - **Configurable hero** — Toggle, parameterize, and choose the code-block language via presets
-- **Language-flexible hero code** — Paste any code snippet; pick the language for chroma syntax highlighting + header filename
+- **Language-flexible hero code** — Paste any code snippet inline OR reference a file; pick the language for chroma syntax highlighting + header filename
 - **Default favicon bundled** — Override with `params.favicon` if you want a custom one
 - **Google Fonts toggle** — Disable web fonts for privacy or performance
 - **i18n ready** — All UI strings translatable via `i18n/` files
@@ -113,24 +113,10 @@ paginate = 10
   theme_repo    = "https://github.com/ali-aiar/notesedge"
   show_theme_credit = true  # Show the theme credit link in the footer (default: true)
 
-  # Hero code block: paste any code snippet, pick the language for highlighting
+  # Hero code block: paste code inline (code) or point at a file (code_file)
   [params.hero_code]
-    language = "cpp"              # go | rust | cpp | c | javascript | typescript | python
-    code     = '''
-#include <string>
-#include <vector>
-
-struct Engineer {
-    std::string name = "Your Name";
-    std::string role = "Controls & Embedded Engineer";
-    std::vector<std::string> focus = {
-        "Controls",
-        "Robotics",
-        "Embedded Systems",
-    };
-    bool writing = true;
-};
-'''
+    language  = "cpp"              # go | rust | cpp | c | javascript | typescript | python
+    code_file = "data/profile.code" # path relative to the Hugo project root
 
   # Optional: Open Graph fallback image
   # og_image    = "/images/og-default.png"
@@ -202,7 +188,7 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 | `education` | University/degree in bio | — |
 | `hero_status` | Status badge text | i18n `hero_status_default` |
 | `carousel_page_size` | Posts per page in the homepage carousel | `4` |
-| `hero_code` | Raw code string with language-driven syntax highlighting (see [Hero Code](#hero-code)) | `{}` |
+| `hero_code` | Raw code string OR file reference with language-driven syntax highlighting (see [Hero Code](#hero-code)) | `{}` |
 | `github` | GitHub profile URL | — |
 | `linkedin` | LinkedIn profile URL | — |
 | `email` | Contact email | — |
@@ -211,11 +197,15 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 
 ### Hero Code
 
-The hero code block accepts a **raw code string** and renders it with Hugo's built-in syntax highlighter (same `github-dark` style as post code blocks). Pick the `language` to drive highlighting and the header filename — paste any code you want.
+The hero code block accepts a **raw code string** (or a path to a file) and renders it with Hugo's built-in syntax highlighter (same `github-dark` style as post code blocks). Pick the `language` to drive highlighting and the header filename.
+
+**Two ways to provide the code:**
+
+**1. Inline string** — paste directly in config:
 
 ```toml
 [params.hero_code]
-  language = "cpp"        # go | rust | cpp | c | javascript | typescript | python
+  language = "cpp"
   code     = '''
 #include <string>
 #include <vector>
@@ -233,9 +223,36 @@ struct Engineer {
 '''
 ```
 
+**2. File reference** — keep code in a separate file (easier to edit, plays well with formatters / external tooling):
+
+```toml
+[params.hero_code]
+  language  = "cpp"
+  code_file = "data/profile.code"   # path relative to the Hugo project root
+```
+
+`data/profile.code`:
+
+```cpp
+#include <string>
+#include <vector>
+
+struct Engineer {
+    std::string name = "Your Name";
+    std::string role = "Controls & Embedded Engineer";
+    std::vector<std::string> focus = {
+        "Controls",
+        "Robotics",
+        "Embedded Systems",
+    };
+    bool writing = true;
+};
+```
+
+**Resolution order:** `code_file` → `code` → placeholder comment. So you can switch between modes without deleting the other.
+
 **How it works:**
 
-- `code` is the raw text — paste any snippet (any language, any structure, any size)
 - `language` selects the chroma lexer for syntax highlighting AND the default filename
 - `filename` (optional) overrides the default filename shown in the code-block header
 - The `data/hero_code_languages.toml` file maps each `language` key to its default `filename`; one entry per supported language
@@ -248,8 +265,6 @@ filename = "profile.zig"
 ```
 
 …then use `language = "zig"` in `[params.hero_code]`. Any chroma lexer name works.
-
-**Defaults when `code` is missing:** the block shows a placeholder comment so the empty box is obvious. The filename still appears in the header.
 
 ### Category Settings
 
