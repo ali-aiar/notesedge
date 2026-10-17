@@ -1,59 +1,121 @@
 # Hero code block language presets
-# Each key is a language identifier. Values are the syntax bits that vary
-# between languages: the keyword that opens the type declaration, the
-# block keyword (or "" for none), the array type shown for `kind = "array"`,
-# and the default filename when none is specified.
+# Each key is a language identifier. Values cover the syntax bits that vary
+# between languages:
+#   type_keyword   - keyword before the type name (e.g. "type", "class"; "" if none)
+#   block_keyword  - keyword after the type name (e.g. "struct"; "" if none)
+#   array_type     - the type used to render `kind = "array"` fields
+#   filename       - default filename shown in the code header
+#   sep            - characters between the field label and its value
+#   terminator     - characters at the end of a field line
+#   array_open     - character(s) after the array type
+#   array_close    - character(s) at the end of an array
+#   bool_true      - literal rendered when a bool field is true
+#   bool_false     - literal rendered when a bool field is false
 
 [go]
 type_keyword  = "type"
 block_keyword = "struct"
 array_type    = "[]string"
 filename      = "profile.go"
+sep           = "   "
+terminator    = ""
+array_open    = "{"
+array_close   = ""
+bool_true     = "true"
+bool_false    = "false"
 
 [rust]
 type_keyword  = ""
 block_keyword = "struct"
 array_type    = "Vec<&str>"
 filename      = "profile.rs"
+sep           = ": "
+terminator    = ","
+array_open    = "{"
+array_close   = ""
+bool_true     = "true"
+bool_false    = "false"
 
 [cpp]
 type_keyword  = ""
 block_keyword = "struct"
 array_type    = "vector<string>"
 filename      = "profile.cpp"
+sep           = " = "
+terminator    = ";"
+array_open    = "{"
+array_close   = "};"
+bool_true     = "true"
+bool_false    = "false"
 
 [c]
 type_keyword  = "typedef"
 block_keyword = ""
 array_type    = "char*[]"
 filename      = "profile.h"
+sep           = " = "
+terminator    = ";"
+array_open    = "{"
+array_close   = "};"
+bool_true     = "true"
+bool_false    = "false"
 
 [javascript]
 type_keyword  = "class"
 block_keyword = ""
 array_type    = "Array"
 filename      = "profile.js"
+sep           = " = "
+terminator    = ","
+array_open    = "["
+array_close   = "]"
+bool_true     = "true"
+bool_false    = "false"
 
 [js]
 type_keyword  = "class"
 block_keyword = ""
 array_type    = "Array"
 filename      = "profile.js"
+sep           = " = "
+terminator    = ","
+array_open    = "["
+array_close   = "]"
+bool_true     = "true"
+bool_false    = "false"
 
 [typescript]
 type_keyword  = "interface"
 block_keyword = ""
 array_type    = "Array"
 filename      = "profile.ts"
+sep           = ": "
+terminator    = ";"
+array_open    = "["
+array_close   = "]"
+bool_true     = "true"
+bool_false    = "false"
 
 [ts]
 type_keyword  = "interface"
 block_keyword = ""
 array_type    = "Array"
 filename      = "profile.ts"
+sep           = ": "
+terminator    = ";"
+array_open    = "["
+array_close   = "]"
+bool_true     = "true"
+bool_false    = "false"
 
 [python]
 type_keyword  = "class"
 block_keyword = ""
 array_type    = "list"
 filename      = "profile.py"
+sep           = " = "
+terminator    = ""
+array_open    = "["
+array_close   = "]"
+bool_true     = "True"
+bool_false    = "False"

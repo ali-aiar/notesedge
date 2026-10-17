@@ -17,12 +17,18 @@
         {{ $hc := .Site.Params.hero_code | default dict }}
         {{ $preset := index .Site.Data.hero_code_languages ($hc.language | default "go") }}
         {{ $preset = $preset | default dict }}
-        {{ $filename := $hc.filename      | default $preset.filename      | default "profile.go" }}
-        {{ $tkw      := $hc.type_keyword  | default $preset.type_keyword  | default "type" }}
-        {{ $tnm      := $hc.type_name     | default "Engineer" }}
-        {{ $bkw      := $hc.block_keyword | default $preset.block_keyword | default "struct" }}
-        {{ $arr      := $preset.array_type | default "[]string" }}
-        {{ $fields   := $hc.fields         | default (slice) }}
+        {{ $filename   := $hc.filename      | default $preset.filename      | default "profile.go" }}
+        {{ $tkw        := $hc.type_keyword  | default $preset.type_keyword  | default "type" }}
+        {{ $tnm        := $hc.type_name     | default "Engineer" }}
+        {{ $bkw        := $hc.block_keyword | default $preset.block_keyword | default "struct" }}
+        {{ $arr        := $preset.array_type | default "[]string" }}
+        {{ $sep        := $preset.sep         | default "   " }}
+        {{ $term       := $preset.terminator  | default "" }}
+        {{ $aopen      := $preset.array_open  | default "{" }}
+        {{ $aclose     := $preset.array_close | default "" }}
+        {{ $btrue      := $preset.bool_true   | default "true" }}
+        {{ $bfalse     := $preset.bool_false  | default "false" }}
+        {{ $fields     := $hc.fields          | default (slice) }}
         <div class="code-header">
           <span class="dot dot-red"></span>
           <span class="dot dot-yellow"></span>
@@ -35,15 +41,19 @@
 {{- range $fields }}
   {{- $kind := .kind | default "string" }}
   {{- if eq $kind "array" }}
-  {{ .label }}<span class="typ">{{ $arr }}</span>{
+  {{ .label }}{{ $sep }}<span class="typ">{{ $arr }}</span>{{ $aopen }}
     {{- range .value }}
     <span class="str">"{{ . }}"</span>,
     {{- end }}
-  }
+  {{ $aclose }}{{ $term }}
   {{- else if eq $kind "bool" }}
-  {{ .label }} <span class="fn">{{ .value }}</span>
+  {{- if .value }}
+  {{ .label }}{{ $sep }}<span class="fn">{{ $btrue }}</span>{{ $term }}
   {{- else }}
-  {{ .label }}   <span class="str">"{{ .value }}"</span>
+  {{ .label }}{{ $sep }}<span class="fn">{{ $bfalse }}</span>{{ $term }}
+  {{- end }}
+  {{- else }}
+  {{ .label }}{{ $sep }}<span class="str">"{{ .value }}"</span>{{ $term }}
   {{- end }}
 {{- end }}
 }</code></pre>

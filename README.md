@@ -215,19 +215,26 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 
 ### Hero Code
 
-The hero code block is **language-flexible** and **data-driven**. Pick a `language` preset to get sensible defaults for the keyword, block style, array type, and filename — then just list your fields. You can still override any preset value explicitly.
+The hero code block is **language-flexible** and **data-driven**. Pick a `language` preset to get sensible defaults for the keyword, block style, array type, filename, and **field syntax** (separator, terminator, array brackets, bool literals) — then just list your fields. You can still override any preset value explicitly.
 
 Supported `language` presets (defined in `data/hero_code_languages.toml`):
 
-| `language`   | opener keyword | block keyword | array type       | default filename  |
-|---|---|---|---|---|
-| `go`         | `type`         | `struct`      | `[]string`       | `profile.go`      |
-| `rust`       | _(none)_       | `struct`      | `Vec<&str>`      | `profile.rs`      |
-| `cpp`        | _(none)_       | `struct`      | `vector<string>` | `profile.cpp`     |
-| `c`          | `typedef`      | _(none)_      | `char*[]`        | `profile.h`       |
-| `javascript` / `js` | `class`  | _(none)_      | `Array`          | `profile.js`      |
-| `typescript` / `ts` | `interface` | _(none)_    | `Array`          | `profile.ts`      |
-| `python`     | `class`        | _(none)_      | `list`           | `profile.py`      |
+| `language`        | opener    | block     | array type       | `sep`   | `terminator` | bools        | brackets | default filename |
+|---|---|---|---|---|---|---|---|---|
+| `go`              | `type`    | `struct`  | `[]string`       | `   `   | _(none)_     | `true/false` | `{}`     | `profile.go`     |
+| `rust`            | _(none)_  | `struct`  | `Vec<&str>`      | `: `    | `,`          | `true/false` | `{}`     | `profile.rs`     |
+| `cpp`             | _(none)_  | `struct`  | `vector<string>` | ` = `   | `;`          | `true/false` | `{};`    | `profile.cpp`    |
+| `c`               | `typedef` | _(none)_  | `char*[]`        | ` = `   | `;`          | `true/false` | `{};`    | `profile.h`      |
+| `javascript`/`js` | `class`   | _(none)_  | `Array`          | ` = `   | `,`          | `true/false` | `[]`     | `profile.js`     |
+| `typescript`/`ts` | `interface` | _(none)_ | `Array`        | `: `    | `;`          | `true/false` | `[]`     | `profile.ts`     |
+| `python`          | `class`   | _(none)_  | `list`           | ` = `   | _(none)_     | `True/False` | `[]`     | `profile.py`     |
+
+Field syntax per language:
+
+- **`sep`** — characters between label and value (e.g. Go: `Name   "Your Name"`; Rust: `name: "Your Name",`)
+- **`terminator`** — end-of-line (e.g. `;` for C/C++/TS, `,` for Rust/JS, empty for Go/Python)
+- **`bools`** — literal text for boolean values (`True/False` for Python, `true/false` elsewhere)
+- **`brackets`** — array syntax (Go/Rust/C/C++ use `{ }`, JS/TS/Python use `[ ]`)
 
 ```toml
 [params.hero_code]
@@ -242,6 +249,24 @@ Supported `language` presets (defined in `data/hero_code_languages.toml`):
   label = "Focus"
   value = ["Backend", "IoT"]
   kind  = "array"
+
+  [[params.hero_code.fields]]
+  label = "Writing"
+  value = true
+  kind  = "bool"
+```
+
+Renders as:
+
+```
+struct Engineer {
+  Name: "Your Name",
+  Focus: Vec<&str>{
+    "Backend",
+    "IoT",
+  },
+  Writing: true,
+}
 ```
 
 To add a new language, append an entry to `data/hero_code_languages.toml` — no template edit needed. To override a single preset value on a site, set the corresponding field explicitly in `[params.hero_code]` (`filename`, `type_keyword`, `block_keyword`).
