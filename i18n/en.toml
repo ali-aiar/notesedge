@@ -78,15 +78,3 @@ other = "Previous"
 
 [carousel_next]
 other = "Next"
-
-[hero_code_name]
-other = "Name"
-
-[hero_code_role]
-other = "Role"
-
-[hero_code_focus]
-other = "Focus"
-
-[hero_code_writing]
-other = "Writing"

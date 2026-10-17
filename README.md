@@ -111,11 +111,30 @@ paginate = 10
   theme_repo    = "https://github.com/ali-aiar/notesedge"
   show_theme_credit = true  # Show the theme credit link in the footer (default: true)
 
-  code_filename = "profile.go"
-  code_name     = "Your Name"
-  code_role     = "Your Role"
-  code_focus    = ["Topic1", "Topic2", "Topic3"]
-  code_writing  = true
+  # Hero code block: data-driven, not hard-coded to a language
+  [params.hero_code]
+    filename      = "profile.go"
+    type_keyword  = "type"        # optional: override for other languages
+    type_name     = "Engineer"    # optional: name shown after type_keyword
+    block_keyword = "struct"      # optional: set to "" for class-style
+
+    [[params.hero_code.fields]]
+    label = "Name"
+    value = "Your Name"           # default kind: string
+
+    [[params.hero_code.fields]]
+    label = "Role"
+    value = "Software Engineer"
+
+    [[params.hero_code.fields]]
+    label = "Focus"
+    value = ["Backend", "IoT", "Distributed Systems"]
+    kind  = "array"               # renders as []string{ "a", "b" }
+
+    [[params.hero_code.fields]]
+    label = "Writing"
+    value = true
+    kind  = "bool"                # renders as true / false
 
   # Optional: Open Graph fallback image
   # og_image    = "/images/og-default.png"
@@ -187,16 +206,38 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 | `education` | University/degree in bio | — |
 | `hero_status` | Status badge text | i18n `hero_status_default` |
 | `carousel_page_size` | Posts per page in the homepage carousel | `4` |
-| `code_filename` | Filename shown in code block | `"profile.go"` |
-| `code_name` | Name field in code block | — |
-| `code_role` | Role field in code block | — |
-| `code_focus` | Array of focus areas in code block | `[]` |
-| `code_writing` | Boolean shown in code block | — |
+| `hero_code` | Data-driven hero code block (see [Hero Code](#hero-code)) | `{}` |
 | `github` | GitHub profile URL | — |
 | `linkedin` | LinkedIn profile URL | — |
 | `email` | Contact email | — |
 | `theme_repo` | Footer link target for the theme credit | Default NotesEdge repo |
 | `show_theme_credit` | Show/hide the site-title-based footer credit link | `true` |
+
+### Hero Code
+
+The hero code block is **data-driven**, not hard-coded to a specific language. Define a list of fields with optional `kind` (`string` default, `array`, `bool`); the template renders each one generically. The wrapping declaration is overridable so the same block can target Go, Python-class style, etc.
+
+```toml
+[params.hero_code]
+  filename      = "profile.go"
+  type_keyword  = "type"        # e.g. "class" for class-based languages
+  type_name     = "Engineer"
+  block_keyword = "struct"      # set to "" if your language has no equivalent
+
+  [[params.hero_code.fields]]
+  label = "Name"
+  value = "Your Name"           # default kind: string
+
+  [[params.hero_code.fields]]
+  label = "Focus"
+  value = ["Backend", "IoT"]
+  kind  = "array"
+
+  [[params.hero_code.fields]]
+  label = "Writing"
+  value = true
+  kind  = "bool"
+```
 
 ### Category Settings
 
@@ -254,10 +295,6 @@ All UI strings are translatable. The theme ships with English defaults in `i18n/
 | `copied` | "copied!" | Code block button |
 | `carousel_prev` | "Previous" | Post carousel navigation |
 | `carousel_next` | "Next" | Post carousel navigation |
-| `hero_code_name` | "Name" | Hero section code block |
-| `hero_code_role` | "Role" | Hero section code block |
-| `hero_code_focus` | "Focus" | Hero section code block |
-| `hero_code_writing` | "Writing" | Hero section code block |
 
 ### Adding a New Locale
 
