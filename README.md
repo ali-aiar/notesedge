@@ -53,6 +53,8 @@ cp -r themes/notesedge/exampleSite/. .
 hugo server
 ```
 
+The `cp` step copies a working example site (config, `content/` posts, `static/` assets including `profile.code` and `favicon.svg`, and the default menu). Tweak `hugo.toml` to suit your project — every `params.*` key is optional.
+
 ---
 
 ## Installation
@@ -115,8 +117,8 @@ paginate = 10
 
   # Hero code block: paste code inline (code) or point at a file (code_file)
   [params.hero_code]
-    language  = "cpp"                # go | rust | cpp | c | javascript | typescript | python
-    code_file = "static/profile.code" # path relative to the Hugo project root
+    language  = "cpp"                # go, rust, cpp, c, javascript, typescript, python
+    code_file = "static/profile.code" # path is relative to the Hugo project root
 
   # Optional: Open Graph fallback image
   # og_image    = "/images/og-default.png"
@@ -188,7 +190,9 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 | `education` | University/degree in bio | — |
 | `hero_status` | Status badge text | i18n `hero_status_default` |
 | `carousel_page_size` | Posts per page in the homepage carousel | `4` |
-| `hero_code` | Raw code string OR file reference with language-driven syntax highlighting (see [Hero Code](#hero-code)) | `{}` |
+| `hero_code.language` | Choma lexer for the hero code block (see [Hero Code](#hero-code)) | `"go"` |
+| `hero_code.code` | Inline code string for the hero code block | `""` |
+| `hero_code.code_file` | Path (relative to Hugo project root) to a file containing the hero code | `""` |
 | `github` | GitHub profile URL | — |
 | `linkedin` | LinkedIn profile URL | — |
 | `email` | Contact email | — |
