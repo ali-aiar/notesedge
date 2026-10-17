@@ -21,7 +21,6 @@ paginate = 10
   education   = "University, Degree"
 
   hero_status = "Open to opportunities"
-  hero_prompt = "yoursite.dev // home"
 
   favicon  = "/favicon.svg"
   logo     = "/logo-brand.png"

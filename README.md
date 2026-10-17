@@ -100,7 +100,6 @@ paginate = 10
   education     = "University, Degree"
 
   hero_status   = "Open to opportunities"
-  hero_prompt   = "yoursite.dev // home"
 
   favicon       = "/favicon.svg"
   logo          = "/logo-brand.png"
@@ -196,7 +195,6 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 | `location` | City/country in bio | — |
 | `education` | University/degree in bio | — |
 | `hero_status` | Status badge text | i18n `hero_status_default` |
-| `hero_prompt` | Terminal prompt text | Site title |
 | `code_filename` | Filename shown in code block | `"profile.go"` |
 | `code_name` | Name field in code block | — |
 | `code_role` | Role field in code block | — |

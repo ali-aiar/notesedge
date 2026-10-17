@@ -240,15 +240,6 @@ img {
   50%       { opacity: 0.4; transform: scale(0.8); }
 }
 
-.hero-prompt {
-  font-size: 0.75rem;
-  color: var(--text-dim);
-}
-
-.hero-prompt-tilde {
-  color: var(--accent);
-}
-
 .hero-tagline {
   font-family: 'IBM Plex Serif', Georgia, serif;
   font-style: italic;

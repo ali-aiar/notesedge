@@ -5,7 +5,6 @@
         <span class="status-dot"></span>
         <span>{{ .Site.Params.hero_status | default (T "hero_status_default" | default "Available") }} &middot; {{ .Site.Params.role | default (T "hero_role_default" | default "Software Engineer") }}</span>
       </div>
-      <div class="hero-prompt"><span class="hero-prompt-tilde">~</span> {{ .Site.Params.hero_prompt | default .Site.Title }}</div>
       <h1 class="hero-tagline">{{ .Site.Params.tagline | safeHTML }}</h1>
       <p class="hero-bio">{{ .Site.Params.description | safeHTML }}</p>
       <div class="hero-meta">
