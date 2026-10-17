@@ -896,6 +896,12 @@ img {
 .post-tag {
   font-size: 0.68rem;
   color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.post-tag:hover {
+  opacity: 0.75;
 }
 
 .post-title {
