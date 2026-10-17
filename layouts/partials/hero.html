@@ -12,13 +12,6 @@
         {{ with .Site.Params.education }}<div class="hero-meta-item"><span class="hero-meta-dot"></span>{{ . }}</div>{{ end }}
         {{ with .Site.Params.location }}<div class="hero-meta-item"><span class="hero-meta-dot"></span>{{ . }}</div>{{ end }}
       </div>
-      {{ with .Site.Params.stack }}
-      <div class="hero-badges">
-        {{ range $i, $s := . }}
-        <span class="hero-badge">{{ $s }}</span>
-        {{ end }}
-      </div>
-      {{ end }}
     </div>
     <div class="hero-right">
       <div class="hero-code">

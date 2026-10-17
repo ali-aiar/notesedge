@@ -32,8 +32,6 @@ paginate = 10
   theme_repo = "https://github.com/ali-aiar/notesedge"
   show_theme_credit = true
 
-  stack = ["Go", "Python", "Docker", "PostgreSQL", "MQTT", "Terraform"]
-
   code_filename = "profile.go"
   code_name     = "Your Name"
   code_role     = "Software Engineer"
