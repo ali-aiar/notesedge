@@ -26,7 +26,7 @@ A dark, GitHub-inspired Hugo theme for technical writers and engineers. Built wi
 - **Responsive** — Mobile-first, adapts at 900px and 600px breakpoints
 - **No framework dependencies** — Vanilla CSS with custom properties, vanilla JS
 - **Configurable hero** — Toggle, parameterize, and choose the code-block language via presets
-- **Language-flexible hero code** — Switch between Go, Rust, C++, C, JS/TS, Python syntax via `language` preset
+- **Language-flexible hero code** — Paste any code snippet; pick the language for chroma syntax highlighting + header filename
 - **Default favicon bundled** — Override with `params.favicon` if you want a custom one
 - **Google Fonts toggle** — Disable web fonts for privacy or performance
 - **i18n ready** — All UI strings translatable via `i18n/` files
@@ -113,28 +113,24 @@ paginate = 10
   theme_repo    = "https://github.com/ali-aiar/notesedge"
   show_theme_credit = true  # Show the theme credit link in the footer (default: true)
 
-  # Hero code block: data-driven, swap languages via `language` preset
+  # Hero code block: paste any code snippet, pick the language for highlighting
   [params.hero_code]
-    language  = "go"             # go | rust | cpp | c | javascript | js | typescript | ts | python
-    type_name = "Engineer"       # only required field beyond language + fields
+    language = "cpp"              # go | rust | cpp | c | javascript | typescript | python
+    code     = '''
+#include <string>
+#include <vector>
 
-    [[params.hero_code.fields]]
-    label = "Name"
-    value = "Your Name"           # default kind: string
-
-    [[params.hero_code.fields]]
-    label = "Role"
-    value = "Software Engineer"
-
-    [[params.hero_code.fields]]
-    label = "Focus"
-    value = ["Backend", "IoT", "Distributed Systems"]
-    kind  = "array"               # renders as the language's array type
-
-    [[params.hero_code.fields]]
-    label = "Writing"
-    value = true
-    kind  = "bool"                # renders as true / false
+struct Engineer {
+    std::string name = "Your Name";
+    std::string role = "Controls & Embedded Engineer";
+    std::vector<std::string> focus = {
+        "Controls",
+        "Robotics",
+        "Embedded Systems",
+    };
+    bool writing = true;
+};
+'''
 
   # Optional: Open Graph fallback image
   # og_image    = "/images/og-default.png"
@@ -206,7 +202,7 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 | `education` | University/degree in bio | — |
 | `hero_status` | Status badge text | i18n `hero_status_default` |
 | `carousel_page_size` | Posts per page in the homepage carousel | `4` |
-| `hero_code` | Language-flexible data-driven hero code block (see [Hero Code](#hero-code)) | `{}` |
+| `hero_code` | Raw code string with language-driven syntax highlighting (see [Hero Code](#hero-code)) | `{}` |
 | `github` | GitHub profile URL | — |
 | `linkedin` | LinkedIn profile URL | — |
 | `email` | Contact email | — |
@@ -215,61 +211,45 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 
 ### Hero Code
 
-The hero code block is **language-flexible** and **data-driven**. Pick a `language` preset to get sensible defaults for the keyword, block style, array type, filename, and **field syntax** (separator, terminator, array brackets, bool literals) — then just list your fields. You can still override any preset value explicitly.
-
-Supported `language` presets (defined in `data/hero_code_languages.toml`):
-
-| `language`        | opener    | block     | array type       | `sep`   | `terminator` | bools        | brackets | default filename |
-|---|---|---|---|---|---|---|---|---|
-| `go`              | `type`    | `struct`  | `[]string`       | `   `   | _(none)_     | `true/false` | `{}`     | `profile.go`     |
-| `rust`            | _(none)_  | `struct`  | `Vec<&str>`      | `: `    | `,`          | `true/false` | `{}`     | `profile.rs`     |
-| `cpp`             | _(none)_  | `struct`  | `vector<string>` | ` = `   | `;`          | `true/false` | `{};`    | `profile.cpp`    |
-| `c`               | `typedef` | _(none)_  | `char*[]`        | ` = `   | `;`          | `true/false` | `{};`    | `profile.h`      |
-| `javascript`/`js` | `class`   | _(none)_  | `Array`          | ` = `   | `,`          | `true/false` | `[]`     | `profile.js`     |
-| `typescript`/`ts` | `interface` | _(none)_ | `Array`        | `: `    | `;`          | `true/false` | `[]`     | `profile.ts`     |
-| `python`          | `class`   | _(none)_  | `list`           | ` = `   | _(none)_     | `True/False` | `[]`     | `profile.py`     |
-
-Field syntax per language:
-
-- **`sep`** — characters between label and value (e.g. Go: `Name   "Your Name"`; Rust: `name: "Your Name",`)
-- **`terminator`** — end-of-line (e.g. `;` for C/C++/TS, `,` for Rust/JS, empty for Go/Python)
-- **`bools`** — literal text for boolean values (`True/False` for Python, `true/false` elsewhere)
-- **`brackets`** — array syntax (Go/Rust/C/C++ use `{ }`, JS/TS/Python use `[ ]`)
+The hero code block accepts a **raw code string** and renders it with Hugo's built-in syntax highlighter (same `github-dark` style as post code blocks). Pick the `language` to drive highlighting and the header filename — paste any code you want.
 
 ```toml
 [params.hero_code]
-  language  = "rust"
-  type_name = "Engineer"
+  language = "cpp"        # go | rust | cpp | c | javascript | typescript | python
+  code     = '''
+#include <string>
+#include <vector>
 
-  [[params.hero_code.fields]]
-  label = "Name"
-  value = "Your Name"
-
-  [[params.hero_code.fields]]
-  label = "Focus"
-  value = ["Backend", "IoT"]
-  kind  = "array"
-
-  [[params.hero_code.fields]]
-  label = "Writing"
-  value = true
-  kind  = "bool"
-```
-
-Renders as:
-
-```
 struct Engineer {
-  Name: "Your Name",
-  Focus: Vec<&str>{
-    "Backend",
-    "IoT",
-  },
-  Writing: true,
-}
+    std::string name = "Your Name";
+    std::string role = "Controls & Embedded Engineer";
+    std::vector<std::string> focus = {
+        "Controls",
+        "Robotics",
+        "Embedded Systems",
+    };
+    bool writing = true;
+};
+'''
 ```
 
-To add a new language, append an entry to `data/hero_code_languages.toml` — no template edit needed. To override a single preset value on a site, set the corresponding field explicitly in `[params.hero_code]` (`filename`, `type_keyword`, `block_keyword`).
+**How it works:**
+
+- `code` is the raw text — paste any snippet (any language, any structure, any size)
+- `language` selects the chroma lexer for syntax highlighting AND the default filename
+- `filename` (optional) overrides the default filename shown in the code-block header
+- The `data/hero_code_languages.toml` file maps each `language` key to its default `filename`; one entry per supported language
+
+**To add a new language** (e.g. Zig, Kotlin, Ruby), append one line to `data/hero_code_languages.toml` — no template edit needed:
+
+```toml
+[zig]
+filename = "profile.zig"
+```
+
+…then use `language = "zig"` in `[params.hero_code]`. Any chroma lexer name works.
+
+**Defaults when `code` is missing:** the block shows a placeholder comment so the empty box is obvious. The filename still appears in the header.
 
 ### Category Settings
 
@@ -422,17 +402,14 @@ layouts/
 
 ### Adding a New Hero Code Language
 
-Append an entry to `data/hero_code_languages.toml`:
+Append an entry to `data/hero_code_languages.toml` with just the default filename — the language name is also passed to Hugo's chroma highlighter, so any chroma lexer works:
 
 ```toml
 [zig]
-type_keyword  = "const"
-block_keyword = "struct"
-array_type    = "[]const []const u8"
-filename      = "profile.zig"
+filename = "profile.zig"
 ```
 
-Then set `language = "zig"` in `[params.hero_code]`. No template or partial edits required.
+Then set `language = "zig"` in `[params.hero_code]` and paste your code into the `code` field. No template or partial edits required.
 
 ---
 

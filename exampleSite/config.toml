@@ -32,26 +32,22 @@ paginate = 10
   show_theme_credit = true
 
   [params.hero_code]
-    language   = "go"           # preset: go, rust, cpp, c, javascript, typescript, python
-    type_name  = "Engineer"     # only required field beyond language + fields
+    language = "cpp"        # go, rust, cpp, c, javascript, typescript, python
+    code     = '''
+#include <string>
+#include <vector>
 
-    [[params.hero_code.fields]]
-    label = "Name"
-    value = "Your Name"
-
-    [[params.hero_code.fields]]
-    label = "Role"
-    value = "Software Engineer"
-
-    [[params.hero_code.fields]]
-    label = "Focus"
-    value = ["Backend", "IoT", "Distributed Systems"]
-    kind  = "array"
-
-    [[params.hero_code.fields]]
-    label = "Writing"
-    value = true
-    kind  = "bool"
+struct Engineer {
+    std::string name = "Your Name";
+    std::string role = "Controls & Embedded Engineer";
+    std::vector<std::string> focus = {
+        "Controls",
+        "Robotics",
+        "Embedded Systems",
+    };
+    bool writing = true;
+};
+'''
 
   [params.categories]
     robotics     = { color = "#2dd4bf", from = "#1d4ed8", to = "#0a1128", label = "ROS2"   }

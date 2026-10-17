@@ -387,14 +387,6 @@ img {
   overflow: hidden;
 }
 
-.kw  { color: #ff7b72; }
-.fn  { color: #d2a8ff; }
-.str { color: #a5d6ff; }
-.cm  { color: var(--text-dim); }
-.typ { color: #ffa657; }
-.num { color: #79c0ff; }
-.id  { color: var(--text-primary); }
-
 /* ─── MAIN GRID ──────────────────────────────────────────── */
 .main-wrapper {
   max-width: 1200px;
