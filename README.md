@@ -16,8 +16,8 @@ A dark, GitHub-inspired Hugo theme for technical writers and engineers. Built wi
 ## Features
 
 - **Dark theme** — GitHub-inspired palette with teal accents
-- **3-column layout** — Left sidebar (categories, recent posts), center cards, right sidebar (tags, stack, search)
-- **Client-side search** — Fuse.js fuzzy search with `Cmd/Ctrl + K` shortcut
+- **2-column layout** — Left sidebar (categories, tags), center content area with card carousel
+- **Client-side search** — Fuse.js fuzzy search with `Cmd/Ctrl + K` shortcut and a mobile icon-button trigger
 - **Content filtering** — Filter posts by `content_types` taxonomy
 - **Post carousel** — 4-post paginated view with previous/next navigation
 - **Optional post series** — Add ordered multi-part series with dedicated previous/next-in-series navigation
@@ -91,7 +91,8 @@ paginate = 10
 
 [params]
   show_hero     = true      # Toggle hero section on homepage (default: true)
-  google_fonts  = true      # Load JetBrains Mono from Google Fonts (default: true)
+  google_fonts  = true      # Load IBM Plex Mono + IBM Plex Serif from Google Fonts (default: true)
+  carousel_page_size = 4    # Posts per page in the homepage carousel (default: 4)
   author        = "Your Name"
   tagline       = "I build things and write about <strong>how they work.</strong>"
   description   = "Short bio shown in the hero section."
@@ -110,8 +111,6 @@ paginate = 10
   theme_repo    = "https://github.com/ali-aiar/notesedge"
   show_theme_credit = true  # Show the theme credit link in the footer (default: true)
 
-  stack = ["Go", "Python", "Docker", "PostgreSQL"]
-
   code_filename = "profile.go"
   code_name     = "Your Name"
   code_role     = "Your Role"
@@ -121,21 +120,13 @@ paginate = 10
   # Optional: Open Graph fallback image
   # og_image    = "/images/og-default.png"
 
-  [params.category_colors]
-    robotics     = "#2dd4bf"
-    embedded     = "#f97316"
-    "go/backend" = "#00ACD7"
-    "ai/ml"      = "#7c3aed"
-    "cloud/iot"  = "#FF9900"
-    devops       = "#326CE5"
-
-  [params.category_thumb_classes]
-    robotics     = "thumb-ros"
-    embedded     = "thumb-embed"
-    "go/backend" = "thumb-go"
-    "ai/ml"      = "thumb-ml"
-    "cloud/iot"  = "thumb-iot"
-    devops       = "thumb-devops"
+  [params.categories]
+    robotics     = { color = "#2dd4bf", from = "#1d4ed8", to = "#0a1128", label = "ROS2"   }
+    embedded     = { color = "#f97316", from = "#b45309", to = "#1c0f00", label = "ESP32"  }
+    "go/backend" = { color = "#00ACD7", from = "#00ACD7", to = "#003B52", label = "Go"     }
+    "ai/ml"      = { color = "#7c3aed", from = "#7c3aed", to = "#1a0a2e", label = "ML"     }
+    "cloud/iot"  = { color = "#FF9900", from = "#0f766e", to = "#042f2e", label = "IoT"    }
+    devops       = { color = "#326CE5", from = "#2088FF", to = "#0a1128", label = "DevOps" }
 
 [markup.highlight]
   style     = "github-dark"
@@ -195,41 +186,38 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 | `location` | City/country in bio | — |
 | `education` | University/degree in bio | — |
 | `hero_status` | Status badge text | i18n `hero_status_default` |
+| `carousel_page_size` | Posts per page in the homepage carousel | `4` |
 | `code_filename` | Filename shown in code block | `"profile.go"` |
 | `code_name` | Name field in code block | — |
 | `code_role` | Role field in code block | — |
 | `code_focus` | Array of focus areas in code block | `[]` |
 | `code_writing` | Boolean shown in code block | — |
-| `stack` | Array of technology names for pills | `[]` |
 | `github` | GitHub profile URL | — |
 | `linkedin` | LinkedIn profile URL | — |
 | `email` | Contact email | — |
 | `theme_repo` | Footer link target for the theme credit | Default NotesEdge repo |
 | `show_theme_credit` | Show/hide the site-title-based footer credit link | `true` |
 
-### Category Colors
+### Category Settings
 
-Map each category to a custom accent color and optional thumbnail CSS class. Colors appear as left-border accents on post cards and category badges.
+Map each category to a single config entry holding its sidebar-dot color, card-thumbnail gradient, and label.
 
 ```toml
-[params.category_colors]
-  robotics     = "#2dd4bf"
-  embedded     = "#f97316"
-  "go/backend" = "#00ACD7"
-
-[params.category_thumb_classes]
-  robotics     = "thumb-ros"
-  embedded     = "thumb-embed"
-  "go/backend" = "thumb-go"
+[params.categories]
+  robotics     = { color = "#2dd4bf", from = "#1d4ed8", to = "#0a1128", label = "ROS2"  }
+  embedded     = { color = "#f97316", from = "#b45309", to = "#1c0f00", label = "ESP32" }
+  "go/backend" = { color = "#00ACD7", from = "#00ACD7", to = "#003B52", label = "Go"    }
 ```
 
-Keys must match your category names (lowercase). Categories without a mapping fall back to the default teal accent.
+Keys must match your category names (lowercase). Categories without a mapping use neutral fallbacks (`color = #8b949e`, gradient = surface colors, no label).
 
 ---
 
-## Google Fonts
+## Typography
 
-The theme uses **JetBrains Mono** for its monospace aesthetic. By default, it loads this from Google Fonts. If you prefer to use system fonts or host them yourself, set `params.google_fonts = false`.
+The theme ships with **IBM Plex Mono** (chrome / UI / code) and **IBM Plex Serif** (prose — hero tagline, post titles, post body, card excerpts) loaded from Google Fonts. The split is set in the CSS via `--font-mono` and `--font-serif` custom properties; no fonts are hard-coded in component rules.
+
+To use system fonts or self-host instead, set `params.google_fonts = false`.
 
 ---
 
@@ -241,26 +229,22 @@ All UI strings are translatable. The theme ships with English defaults in `i18n/
 |-----|---------|---------|
 | `hero_status_default` | "Available" | Hero status badge |
 | `hero_role_default` | "Software Engineer" | Hero status badge |
-| `nav_search_placeholder` | "⌕ Search..." | Navigation bar |
+| `nav_search_placeholder` | "⌕ Search..." | Navigation bar input |
+| `search_title` | "Search" | Nav search trigger button aria-label |
 | `search_placeholder` | "Search posts, tags, topics..." | Search overlay |
 | `search_empty_state` | "Start typing to search..." | Search overlay |
 | `search_loading` | "Loading index..." | Search overlay |
 | `search_no_results_prefix` | "No results for" | Search overlay |
 | `search_load_error` | "Could not load search index." | Search overlay |
 | `search_results_summary` | "Showing %END% of %TOTAL% posts" | Search overlay |
-| `back_to_posts` | "← back to posts" | Single post page |
 | `min_read` | "min read" | Single post page |
 | `previous_post` | "← previous" | Post navigation |
 | `next_post` | "next →" | Post navigation |
 | `previous_in_series` | "← previous in series" | Series post navigation |
 | `next_in_series` | "next in series →" | Series post navigation |
-| `browse_categories` | "Browse Categories" | Left sidebar |
-| `recent_posts` | "Recent Posts" | Left sidebar |
+| `categories_title` | "Categories" | Left sidebar |
+| `tags_title` | "Tags" | Left sidebar |
 | `filter_all` | "All" | Content type filter |
-| `tags_title` | "Tags" | Right sidebar |
-| `search_title` | "Search" | Right sidebar |
-| `search_sidebar_placeholder` | "Search posts..." | Right sidebar |
-| `current_stack` | "Current Stack" | Right sidebar |
 | `post_count_suffix` | "posts" | List pages |
 | `built_with` | "Built with" | Footer |
 | `page_not_found` | "Page Not Found" | 404 page |
@@ -343,6 +327,8 @@ assets/
     └── search.js          # Fuse.js search overlay
 i18n/
 └── en.toml                # English UI strings
+static/
+└── favicon.svg            # Default theme favicon (`</>` glyph)
 layouts/
 ├── 404.html
 ├── index.html             # Homepage with hero + post carousel

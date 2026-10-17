@@ -25,9 +25,6 @@ other = "Could not load search index."
 [search_results_summary]
 other = "Showing %END% of %TOTAL% posts"
 
-[back_to_posts]
-other = "← back to posts"
-
 [min_read]
 other = "min read"
 
@@ -46,9 +43,6 @@ other = "next in series →"
 [categories_title]
 other = "Categories"
 
-[recent_posts]
-other = "Recent Posts"
-
 [filter_all]
 other = "All"
 
@@ -57,9 +51,6 @@ other = "Tags"
 
 [search_title]
 other = "Search"
-
-[search_sidebar_placeholder]
-other = "Search posts..."
 
 [post_count_suffix]
 other = "posts"
