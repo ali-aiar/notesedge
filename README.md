@@ -251,20 +251,31 @@ struct Engineer {
 
 **Resolution order:** `code_file` → `code` → placeholder comment. So you can switch between modes without deleting the other.
 
-**How it works:**
+**Supported languages** (ship with the theme, defined in `data/hero_code_languages.toml`):
 
-- `language` selects the chroma lexer for syntax highlighting AND the default filename
-- `filename` (optional) overrides the default filename shown in the code-block header
-- The `data/hero_code_languages.toml` file maps each `language` key to its default `filename`; one entry per supported language
+| `language`        | default filename  |
+|---|---|
+| `go`              | `profile.go`      |
+| `rust`            | `profile.rs`      |
+| `cpp`             | `profile.cpp`     |
+| `c`               | `profile.h`       |
+| `javascript` / `js` | `profile.js`    |
+| `typescript` / `ts` | `profile.ts`    |
+| `python`          | `profile.py`      |
 
-**To add a new language** (e.g. Zig, Kotlin, Ruby), append one line to `data/hero_code_languages.toml` — no template edit needed:
+Any other chroma lexer name (e.g. `zig`, `kotlin`, `ruby`) works too — add one line to `data/hero_code_languages.toml` to give it a default filename, no template edit needed:
 
 ```toml
 [zig]
 filename = "profile.zig"
 ```
 
-…then use `language = "zig"` in `[params.hero_code]`. Any chroma lexer name works.
+**Field reference:**
+
+- `language` — chroma lexer for syntax highlighting + drives the default filename
+- `code` — inline raw code string (TOML `'''...'''` multi-line)
+- `code_file` — path to a file containing the raw code (relative to the Hugo project root)
+- `filename` — optional override for the filename shown in the code-block header
 
 ### Category Settings
 
@@ -414,17 +425,6 @@ layouts/
     ├── nav.html
     └── search.html
 ```
-
-### Adding a New Hero Code Language
-
-Append an entry to `data/hero_code_languages.toml` with just the default filename — the language name is also passed to Hugo's chroma highlighter, so any chroma lexer works:
-
-```toml
-[zig]
-filename = "profile.zig"
-```
-
-Then set `language = "zig"` in `[params.hero_code]` and paste your code into the `code` field. No template or partial edits required.
 
 ---
 
