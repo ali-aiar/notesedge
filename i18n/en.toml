@@ -43,8 +43,11 @@ other = "← previous in series"
 [next_in_series]
 other = "next in series →"
 
-[browse_categories]
-other = "Browse Categories"
+[categories_title]
+other = "Categories"
+
+[view_all]
+other = "view all →"
 
 [recent_posts]
 other = "Recent Posts"
