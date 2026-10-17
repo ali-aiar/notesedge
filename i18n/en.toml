@@ -46,9 +46,6 @@ other = "next in series →"
 [categories_title]
 other = "Categories"
 
-[view_all]
-other = "view all →"
-
 [recent_posts]
 other = "Recent Posts"
 
@@ -63,9 +60,6 @@ other = "Search"
 
 [search_sidebar_placeholder]
 other = "Search posts..."
-
-[current_stack]
-other = "Current Stack"
 
 [post_count_suffix]
 other = "posts"

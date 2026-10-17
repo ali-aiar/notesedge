@@ -9,10 +9,7 @@
     <!-- LEFT SIDEBAR -->
     <aside class="sidebar-left">
       <div class="sidebar-section">
-        <div class="sidebar-title">
-          <span>{{ T "categories_title" | default "Categories" }}</span>
-          <a href="{{ "/categories/" | relURL }}" class="sidebar-link">{{ T "view_all" | default "view all →" }}</a>
-        </div>
+        <div class="sidebar-title">{{ T "categories_title" | default "Categories" }}</div>
         <div class="tags-cloud-wrapper"><ul class="category-list">
           {{ $catColors := .Site.Params.category_colors | default dict }}
           {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
@@ -26,10 +23,7 @@
         </ul></div>
       </div>
       <div class="sidebar-section">
-        <div class="sidebar-title">
-          <span>{{ T "tags_title" | default "Tags" }}</span>
-          <a href="{{ "/tags/" | relURL }}" class="sidebar-link">{{ T "view_all" | default "view all →" }}</a>
-        </div>
+        <div class="sidebar-title">{{ T "tags_title" | default "Tags" }}</div>
         <div class="tags-cloud-wrapper"><div class="tags-cloud">
           {{ $tagColors := slice "tag-teal" "tag-blue" "tag-purple" "tag-amber" "tag-gray" "tag-green" }}
           {{ range $name, $pages := .Site.Taxonomies.tags }}

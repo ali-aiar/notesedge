@@ -443,23 +443,6 @@ img {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-
-.sidebar-link {
-  color: var(--text-muted);
-  text-decoration: none;
-  text-transform: none;
-  letter-spacing: 0;
-  font-weight: 500;
-  transition: color 0.15s;
-}
-
-.sidebar-link:hover {
-  color: var(--accent);
 }
 
 /* Category list */
