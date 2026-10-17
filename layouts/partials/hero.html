@@ -18,19 +18,30 @@
           <span class="dot dot-red"></span>
           <span class="dot dot-yellow"></span>
           <span class="dot dot-green"></span>
-          <span style="margin-left:0.5rem;color:var(--text-dim)">{{ .Site.Params.code_filename | default "profile.go" }}</span>
+          <span style="margin-left:0.5rem;color:var(--text-dim)">{{ .Site.Params.hero_code.filename | default "profile.go" }}</span>
         </div>
-        <pre><code><span class="cm">// {{ .Site.Params.code_filename | default "profile.go" }}</span>
+        {{ $hc := .Site.Params.hero_code | default dict }}
+        {{ $fields := $hc.fields | default (slice) }}
+        {{ $tkw := $hc.type_keyword  | default "type" }}
+        {{ $tnm := $hc.type_name     | default "Engineer" }}
+        {{ $bkw := $hc.block_keyword | default "struct" }}
+        <pre><code><span class="cm">// {{ $hc.filename | default "profile.go" }}</span>
 
-<span class="kw">type</span> <span class="typ">Engineer</span> <span class="kw">struct</span> {
-  {{ T "hero_code_name" | default "Name" }}   <span class="str">"{{ .Site.Params.code_name | default .Site.Params.author }}"</span>
-  {{ T "hero_code_role" | default "Role" }}   <span class="str">"{{ .Site.Params.code_role | default .Site.Params.role }}"</span>
-  {{ T "hero_code_focus" | default "Focus" }}  <span class="typ">[]string</span>{
-    {{- range .Site.Params.code_focus }}
+<span class="kw">{{ $tkw }}</span> <span class="typ">{{ $tnm }}</span> <span class="kw">{{ $bkw }}</span> {
+{{- range $fields }}
+  {{- $kind := .kind | default "string" }}
+  {{- if eq $kind "array" }}
+  {{ .label }}<span class="typ">[]string</span>{
+    {{- range .value }}
     <span class="str">"{{ . }}"</span>,
     {{- end }}
   }
-  {{ T "hero_code_writing" | default "Writing" }} <span class="fn">{{ .Site.Params.code_writing | default true }}</span>
+  {{- else if eq $kind "bool" }}
+  {{ .label }} <span class="fn">{{ .value }}</span>
+  {{- else }}
+  {{ .label }}   <span class="str">"{{ .value }}"</span>
+  {{- end }}
+{{- end }}
 }</code></pre>
       </div>
     </div>

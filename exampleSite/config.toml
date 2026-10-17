@@ -31,11 +31,29 @@ paginate = 10
   theme_repo = "https://github.com/ali-aiar/notesedge"
   show_theme_credit = true
 
-  code_filename = "profile.go"
-  code_name     = "Your Name"
-  code_role     = "Software Engineer"
-  code_focus    = ["Backend", "IoT", "Distributed Systems"]
-  code_writing  = true
+  [params.hero_code]
+    filename      = "profile.go"
+    type_keyword  = "type"
+    type_name     = "Engineer"
+    block_keyword = "struct"
+
+    [[params.hero_code.fields]]
+    label = "Name"
+    value = "Your Name"
+
+    [[params.hero_code.fields]]
+    label = "Role"
+    value = "Software Engineer"
+
+    [[params.hero_code.fields]]
+    label = "Focus"
+    value = ["Backend", "IoT", "Distributed Systems"]
+    kind  = "array"
+
+    [[params.hero_code.fields]]
+    label = "Writing"
+    value = true
+    kind  = "bool"
 
   [params.categories]
     robotics     = { color = "#2dd4bf", from = "#1d4ed8", to = "#0a1128", label = "ROS2"   }
