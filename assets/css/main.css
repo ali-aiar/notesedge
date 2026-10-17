@@ -765,9 +765,9 @@ img {
   transform: translateY(-1px);
 }
 
-.tag-sm  { font-size: 0.65rem; padding: 0.15rem 0.5rem; }
+.tag-sm  { font-size: 0.72rem; padding: 0.15rem 0.5rem; }
 .tag-md  { font-size: 0.72rem; padding: 0.2rem 0.6rem; }
-.tag-lg  { font-size: 0.78rem; padding: 0.25rem 0.65rem; font-weight: 600; }
+.tag-lg  { font-size: 0.72rem; padding: 0.25rem 0.65rem; font-weight: 600; }
 
 .tag-teal   { background: #0d2d2a; border: 1px solid #134e4a; color: #2dd4bf; }
 .tag-blue   { background: #0c1e3a; border: 1px solid #1a3a6e; color: #79c0ff; }
