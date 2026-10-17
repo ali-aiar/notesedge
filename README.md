@@ -1,6 +1,6 @@
 # NotesEdge
 
-A dark, GitHub-inspired Hugo theme for technical writers and engineers. Built with a monospace-first design, multi-column layout, and client-side search — no build tools required.
+A dark, GitHub-inspired Hugo theme for technical writers and engineers. Built with a monospace-first design, 2-column layout, and client-side search — no build tools required.
 
 ![Hugo Version](https://img.shields.io/badge/Hugo-0.110.0+-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -19,18 +19,20 @@ A dark, GitHub-inspired Hugo theme for technical writers and engineers. Built wi
 - **2-column layout** — Left sidebar (categories, tags), center content area with card carousel
 - **Client-side search** — Fuse.js fuzzy search with `Cmd/Ctrl + K` shortcut and a mobile icon-button trigger
 - **Content filtering** — Filter posts by `content_types` taxonomy
-- **Post carousel** — 4-post paginated view with previous/next navigation
+- **Post carousel** — Paginated card view with previous/next navigation, page size configurable via `carousel_page_size`
 - **Optional post series** — Add ordered multi-part series with dedicated previous/next-in-series navigation
 - **Code highlighting** — Hugo's `github-dark` syntax theme with copy buttons
 - **Multiple taxonomies** — `tags`, `categories`, `content_types`
 - **Responsive** — Mobile-first, adapts at 900px and 600px breakpoints
 - **No framework dependencies** — Vanilla CSS with custom properties, vanilla JS
-- **Configurable hero** — Toggle and parameterize the hero section
+- **Configurable hero** — Toggle, parameterize, and choose the code-block language via presets
+- **Language-flexible hero code** — Switch between Go, Rust, C++, C, JS/TS, Python syntax via `language` preset
+- **Default favicon bundled** — Override with `params.favicon` if you want a custom one
 - **Google Fonts toggle** — Disable web fonts for privacy or performance
 - **i18n ready** — All UI strings translatable via `i18n/` files
 - **SEO optimized** — Open Graph, Twitter Cards, canonical URLs
 - **Extensibility hooks** — Override `head.html` and `comments.html` partials
-- **Configurable category colors** — Map categories to custom colors via config
+- **Unified category config** — One `[params.categories]` table for sidebar dot color, card thumbnail gradient, and label
 
 ---
 
@@ -204,7 +206,7 @@ The hero section on the homepage is highly customizable. Toggle it with `params.
 | `education` | University/degree in bio | — |
 | `hero_status` | Status badge text | i18n `hero_status_default` |
 | `carousel_page_size` | Posts per page in the homepage carousel | `4` |
-| `hero_code` | Data-driven hero code block (see [Hero Code](#hero-code)) | `{}` |
+| `hero_code` | Language-flexible data-driven hero code block (see [Hero Code](#hero-code)) | `{}` |
 | `github` | GitHub profile URL | — |
 | `linkedin` | LinkedIn profile URL | — |
 | `email` | Contact email | — |
@@ -246,7 +248,7 @@ To add a new language, append an entry to `data/hero_code_languages.toml` — no
 
 ### Category Settings
 
-Map each category to a single config entry holding its sidebar-dot color, card-thumbnail gradient, and label.
+Map each category to a single config entry holding its sidebar-dot color, card-thumbnail gradient, and label — one row, four fields.
 
 ```toml
 [params.categories]
@@ -359,39 +361,53 @@ Search weights:
 
 ```
 archetypes/
-└── default.md             # Post archetype
+└── default.md                # Post archetype
 assets/
 ├── css/
-│   └── main.css           # Theme stylesheet
+│   └── main.css              # Theme stylesheet
 └── js/
-    ├── carousel.js        # Post carousel logic
-    ├── code-block.js      # Code copy button
-    └── search.js          # Fuse.js search overlay
+    ├── carousel.js           # Post carousel logic
+    ├── code-block.js         # Code copy button
+    └── search.js             # Fuse.js search overlay
 i18n/
-└── en.toml                # English UI strings
+└── en.toml                   # English UI strings
 static/
-└── favicon.svg            # Default theme favicon (`</>` glyph)
+└── favicon.svg               # Default theme favicon (`</>` glyph)
 data/
 └── hero_code_languages.toml  # Language presets for the hero code block
 layouts/
 ├── 404.html
-├── index.html             # Homepage with hero + post carousel
-├── index.json             # Search index template
+├── index.html                # Homepage with hero + post carousel
+├── index.json                # Search index template
 ├── _default/
-│   ├── baseof.html        # Base HTML wrapper
-│   ├── single.html        # Individual post page + optional series navigation
-│   └── list.html          # Category / tag list pages
+│   ├── baseof.html           # Base HTML wrapper
+│   ├── single.html           # Individual post page + optional series navigation
+│   └── list.html             # Category / tag list pages
 ├── page/
-│   └── about.html         # About page
+│   └── about.html            # About page
 └── partials/
     ├── card.html
-    ├── comments.html       # Comment system hook (empty by default)
+    ├── comments.html         # Comment system hook (empty by default)
     ├── footer.html
-    ├── head.html           # SEO meta tags + extensibility hook
+    ├── head.html             # SEO meta tags + extensibility hook
     ├── hero.html
     ├── nav.html
     └── search.html
 ```
+
+### Adding a New Hero Code Language
+
+Append an entry to `data/hero_code_languages.toml`:
+
+```toml
+[zig]
+type_keyword  = "const"
+block_keyword = "struct"
+array_type    = "[]const []const u8"
+filename      = "profile.zig"
+```
+
+Then set `language = "zig"` in `[params.hero_code]`. No template or partial edits required.
 
 ---
 
